@@ -1,8 +1,8 @@
 ﻿using System;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public class ReactiveShell<TViewModel> : Shell, IViewFor<TViewModel>
         where TViewModel : class

@@ -1,8 +1,45 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EightBot.BigBangNet", "EightBot.BigBangNet\EightBot.BigBangNet.csproj", "{FED56DEC-5D1E-4843-8A11-FD082B7C5285}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EightBot.BigBangNet.Maui", "EightBot.BigBangNet.Maui\EightBot.BigBangNet.Maui.csproj", "{1036C8A2-FB32-43D0-9AB0-2C04398E905F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EightBot.BigBangNet.MauiSample", "EightBot.BigBangNet.MauiSample\EightBot.BigBangNet.MauiSample.csproj", "{2C19474F-8BC0-4573-B740-90FC40385BE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{A897BC6C-7CD6-433A-975C-136423716415}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EightBot.BigBangNet.Validation", "EightBot.BigBangNet.Validation\EightBot.BigBangNet.Validation.csproj", "{A69FD8C3-D8D7-4A38-91F6-B46A2706C30F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eightbot.BigBangNet.Maui.PopUp", "Eightbot.BigBangNet.Maui.PopUp\Eightbot.BigBangNet.Maui.PopUp.csproj", "{AA893DE3-DFF5-4E56-9C4A-04278AD7F9B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FED56DEC-5D1E-4843-8A11-FD082B7C5285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED56DEC-5D1E-4843-8A11-FD082B7C5285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED56DEC-5D1E-4843-8A11-FD082B7C5285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED56DEC-5D1E-4843-8A11-FD082B7C5285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1036C8A2-FB32-43D0-9AB0-2C04398E905F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1036C8A2-FB32-43D0-9AB0-2C04398E905F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1036C8A2-FB32-43D0-9AB0-2C04398E905F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1036C8A2-FB32-43D0-9AB0-2C04398E905F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C19474F-8BC0-4573-B740-90FC40385BE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C19474F-8BC0-4573-B740-90FC40385BE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C19474F-8BC0-4573-B740-90FC40385BE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C19474F-8BC0-4573-B740-90FC40385BE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A69FD8C3-D8D7-4A38-91F6-B46A2706C30F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A69FD8C3-D8D7-4A38-91F6-B46A2706C30F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A69FD8C3-D8D7-4A38-91F6-B46A2706C30F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A69FD8C3-D8D7-4A38-91F6-B46A2706C30F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA893DE3-DFF5-4E56-9C4A-04278AD7F9B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA893DE3-DFF5-4E56-9C4A-04278AD7F9B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA893DE3-DFF5-4E56-9C4A-04278AD7F9B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA893DE3-DFF5-4E56-9C4A-04278AD7F9B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2C19474F-8BC0-4573-B740-90FC40385BE2} = {A897BC6C-7CD6-433A-975C-136423716415}
 	EndGlobalSection
 EndGlobal

@@ -6,11 +6,11 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EightBot.BigBang.ViewModel;
-using EightBot.BigBang.XamForms;
-using EightBot.BigBang.XamForms.Pages;
+using EightBot.BigBang.Maui;
+using EightBot.BigBang.Maui.Pages;
 using FluentValidation;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
 namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 {
@@ -84,7 +84,7 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
         private readonly Button deleteButton = new Button
         {
             Text = " Delete ",
-            BackgroundColor = Color.Transparent
+            BackgroundColor = Colors.Transparent
         };
 
         private readonly Grid moreControlsContainer = new Grid
@@ -237,7 +237,7 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 
             if (viewModel.IsDeletable)
             {
-                moreControlsContainer.Children.Add(deleteButton, 1, 0);
+                moreControlsContainer.Add(deleteButton, 1, 0);
             }
         }
     }

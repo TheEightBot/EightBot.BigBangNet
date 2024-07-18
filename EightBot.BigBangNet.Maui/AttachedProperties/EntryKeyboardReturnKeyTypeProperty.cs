@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.AttachedProperties
+namespace EightBot.BigBang.Maui.AttachedProperties
 {
     public enum EntryKeyboardReturnType
     {
@@ -17,7 +17,7 @@ namespace EightBot.BigBang.XamForms.AttachedProperties
 
     public class EntryKeyboardReturnKeyTypeProperty
     {
-        public const string 
+        public const string
             KeyboardReturnKeyTypeName = "KeyboardReturnKeyType",
             NextVisualElementName = "NextVisualElement";
 
@@ -66,7 +66,7 @@ namespace EightBot.BigBang.XamForms.AttachedProperties
         public static BindableProperty KeyboardReturnKeyTypeProperty =
             BindableProperty.CreateAttached(KeyboardReturnKeyTypeName, typeof(EntryKeyboardReturnType),
                 typeof(Nullable), EntryKeyboardReturnType.Default, defaultBindingMode: BindingMode.Default, propertyChanged: OnKeyboardReturnKeyTypeChanged);
-        
+
         static void OnKeyboardReturnKeyTypeChanged(BindableObject bindable, object oldValue, object newValue)
         {
 
@@ -76,7 +76,7 @@ namespace EightBot.BigBang.XamForms.AttachedProperties
 
             var foundEffect = ve.Effects.FirstOrDefault(x => x.ResolveId == Effects.EffectNames.KeyboardReturnKeyTypeNameEffect);
 
-            if (foundEffect != null) 
+            if (foundEffect != null)
                 ve.Effects.Remove(foundEffect);
 
             var effect = Effect.Resolve(Effects.EffectNames.KeyboardReturnKeyTypeNameEffect);

@@ -7,9 +7,9 @@ using System.Reactive.Subjects;
 using System.Threading;
 using ReactiveUI;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.Views
+namespace EightBot.BigBang.Maui.Views
 {
     public class GroupedReactiveListView : ListView, IEnableLogger
     {
@@ -51,7 +51,7 @@ namespace EightBot.BigBang.XamForms.Views
                         x => this.ItemTapped -= x)
                     .Select(args => args.Item as T);
         }
-        
+
         public IObservable<object> ListViewItemTapped()
         {
             return
@@ -66,7 +66,7 @@ namespace EightBot.BigBang.XamForms.Views
                         x => this.ItemTapped -= x)
                     .Select(args => args.Item);
         }
-        
+
         public IObservable<T> ListViewItemSelected<T>() where T : class
         {
             return
@@ -81,7 +81,7 @@ namespace EightBot.BigBang.XamForms.Views
                         x => this.ItemSelected -= x)
                     .Select(args => args.SelectedItem as T);
         }
-        
+
         public IObservable<object> ListViewItemSelected()
         {
             return

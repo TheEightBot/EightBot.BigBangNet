@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Reactive;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
@@ -11,17 +11,17 @@ namespace EightBot.BigBang.Sample.ViewModels
 {
     [PreCache]
     public class SampleViewModel : ValidationViewModelBase<SampleViewModel>
-	{
-		public SampleViewModel()
-		{
-		}
+    {
+        public SampleViewModel()
+        {
+        }
 
-		public override string Title => "Sample";
+        public override string Title => "Sample";
 
-		Lazy<Validators.SampleViewModelValidator> _validator = 
-			new Lazy<Validators.SampleViewModelValidator>(() => new Validators.SampleViewModelValidator());
-		
-		public override AbstractValidator<SampleViewModel> Validator => _validator.Value;
+        Lazy<Validators.SampleViewModelValidator> _validator =
+            new Lazy<Validators.SampleViewModelValidator>(() => new Validators.SampleViewModelValidator());
+
+        public override AbstractValidator<SampleViewModel> Validator => _validator.Value;
 
         int _intProperty;
 
@@ -32,14 +32,14 @@ namespace EightBot.BigBang.Sample.ViewModels
             set { this.RaiseAndSetIfChanged(ref _intProperty, value); }
         }
 
-		int _secondIntProperty;
+        int _secondIntProperty;
 
-		[DataMember]
-		public int SecondIntProperty
-		{
-			get { return _secondIntProperty; }
-			set { this.RaiseAndSetIfChanged(ref _secondIntProperty, value); }
-		}
+        [DataMember]
+        public int SecondIntProperty
+        {
+            get { return _secondIntProperty; }
+            set { this.RaiseAndSetIfChanged(ref _secondIntProperty, value); }
+        }
 
         string _stringProperty;
 
@@ -62,7 +62,8 @@ namespace EightBot.BigBang.Sample.ViewModels
         decimal _decimalProperty;
 
         [DataMember]
-        public decimal DecimalProperty {
+        public decimal DecimalProperty
+        {
             get { return _decimalProperty; }
             set { this.RaiseAndSetIfChanged(ref _decimalProperty, value); }
         }
@@ -70,7 +71,8 @@ namespace EightBot.BigBang.Sample.ViewModels
         decimal _secondDecimalProperty;
 
         [DataMember]
-        public decimal SecondDecimalProperty {
+        public decimal SecondDecimalProperty
+        {
             get { return _secondDecimalProperty; }
             set { this.RaiseAndSetIfChanged(ref _secondDecimalProperty, value); }
         }
@@ -78,7 +80,8 @@ namespace EightBot.BigBang.Sample.ViewModels
         decimal? _nullableDecimalProperty;
 
         [DataMember]
-        public decimal? NullableDecimalProperty {
+        public decimal? NullableDecimalProperty
+        {
             get { return _nullableDecimalProperty; }
             set { this.RaiseAndSetIfChanged(ref _nullableDecimalProperty, value); }
         }
@@ -86,7 +89,8 @@ namespace EightBot.BigBang.Sample.ViewModels
         decimal? _secondNullableDecimalProperty;
 
         [DataMember]
-        public decimal? SecondNullableDecimalProperty {
+        public decimal? SecondNullableDecimalProperty
+        {
             get { return _secondNullableDecimalProperty; }
             set { this.RaiseAndSetIfChanged(ref _secondNullableDecimalProperty, value); }
         }
@@ -109,15 +113,16 @@ namespace EightBot.BigBang.Sample.ViewModels
             set { this.RaiseAndSetIfChanged(ref _unitCommand, value); }
         }
 
-		protected override void RegisterObservables()
+        protected override void RegisterObservables()
         {
             UnitCommand = ReactiveCommand
-                .CreateFromTask(async _ => {
+                .CreateFromTask(async _ =>
+                {
                     var rngesus = new Random(Guid.NewGuid().GetHashCode());
                     System.Diagnostics.Debug.WriteLine($"Unit Command activated for {StringProperty}");
                     await Task.Delay(rngesus.Next(0, 300));
                 })
                 .DisposeWith(ViewModelBindings);
-		}
-	}
+        }
+    }
 }

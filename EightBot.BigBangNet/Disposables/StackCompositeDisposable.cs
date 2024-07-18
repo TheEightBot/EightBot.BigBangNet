@@ -269,7 +269,7 @@ namespace System.Reactive.Disposables
                 Volatile.Write(ref _count, 0);
             }
 
-            if(previousDisposables != null)
+            if (previousDisposables != null)
             {
                 for (int i = previousDisposables.Length - 1; i >= 0; i--)
                 {

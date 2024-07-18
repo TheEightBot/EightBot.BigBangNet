@@ -1,10 +1,10 @@
 ﻿using System;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Text;
 using System.Reflection;
 using System.Linq;
 using Splat;
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public static class ContentViewExtensions
     {

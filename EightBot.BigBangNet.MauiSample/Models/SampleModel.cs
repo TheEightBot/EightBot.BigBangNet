@@ -7,7 +7,7 @@ namespace EightBot.BigBang.Sample.Models
     public class SampleModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName]string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        void OnPropertyChanged([CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         private string _stringProperty;
         public string StringProperty

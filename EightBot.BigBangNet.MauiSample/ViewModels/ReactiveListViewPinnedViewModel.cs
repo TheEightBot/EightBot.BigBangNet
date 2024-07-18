@@ -51,8 +51,10 @@ namespace EightBot.BigBang.Sample.ViewModels
             _sampleListSource.AddRange(
                 Enumerable
                     .Range(0, 100)
-                .Select(x => {
-                    return new SampleModel {
+                .Select(x =>
+                {
+                    return new SampleModel
+                    {
                         StringProperty = Guid.NewGuid().ToString("N")
                     };
                 })
@@ -69,12 +71,12 @@ namespace EightBot.BigBang.Sample.ViewModels
         protected override void RegisterObservables()
         {
             SelectionUnitSample = ReactiveCommand
-			    .Create(() =>
-			    {
+                .Create(() =>
+                {
                     System.Diagnostics.Debug.WriteLine("Selection");
 
                 })
-			    .DisposeWith(ViewModelBindings);
+                .DisposeWith(ViewModelBindings);
         }
     }
 }

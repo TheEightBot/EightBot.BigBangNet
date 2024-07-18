@@ -9,7 +9,7 @@ using ReactiveUI.Fody.Helpers;
 
 namespace EightBot.BigBang.ViewModel
 {
-    public class GroupedViewModelBase<TViewModel> : ViewModelBase 
+    public class GroupedViewModelBase<TViewModel> : ViewModelBase
         where TViewModel : ViewModelBase
     {
         [Reactive]

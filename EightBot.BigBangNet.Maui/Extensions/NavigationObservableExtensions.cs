@@ -6,12 +6,12 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public static class NavigationObservableExtensions
-	{
+    {
         private static long _navigatingCount;
 
         public static TimeSpan DefaultMultiTapThrottleDuration { get; set; }
@@ -36,16 +36,16 @@ namespace EightBot.BigBang.XamForms
             }
         }
 
-		public static IDisposable NavigateToPage<TParameter, TPage>(this IObservable<TParameter> observable, VisualElement element,
-			Func<TParameter, TPage> pageCreator,
-			Action<TPage, TParameter> preNavigation = null,
-			Action<TPage, TParameter> postNavigation = null,
-			bool animated = true,
-			bool allowMultiple = false,
+        public static IDisposable NavigateToPage<TParameter, TPage>(this IObservable<TParameter> observable, VisualElement element,
+            Func<TParameter, TPage> pageCreator,
+            Action<TPage, TParameter> preNavigation = null,
+            Action<TPage, TParameter> postNavigation = null,
+            bool animated = true,
+            bool allowMultiple = false,
             IScheduler pageCreationScheduler = null,
             TimeSpan? multiTapThrottleDuration = null)
-			where TPage : Page
-		{
+            where TPage : Page
+        {
             return observable
                 .ThrottleFirst(multiTapThrottleDuration ?? DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
                 .Where(_ => allowMultiple || !Navigating)
@@ -70,7 +70,7 @@ namespace EightBot.BigBang.XamForms
                     {
                         try
                         {
-                            if(x.Page != default(TPage))
+                            if (x.Page != default(TPage))
                             {
                                 preNavigation?.Invoke(x.Page, x.Parameter);
                                 await Task.WhenAll(
@@ -87,7 +87,7 @@ namespace EightBot.BigBang.XamForms
                         return Unit.Default;
                     })
                 .Subscribe();
-		}
+        }
 
         public static IDisposable NavigatePopTo<TParameter, TPage>(this IObservable<TParameter> observable, Page page,
             Action<TParameter> preNavigation = null,
@@ -118,17 +118,17 @@ namespace EightBot.BigBang.XamForms
 
                         return Unit.Default;
                     })
-                .Subscribe();        
+                .Subscribe();
         }
 
-		public static IDisposable NavigatePopPage<TParameter>(this IObservable<TParameter> observable, VisualElement element,
-			Action<TParameter> preNavigation = null,
-			Action<TParameter> postNavigation = null,
-			bool animated = true,
+        public static IDisposable NavigatePopPage<TParameter>(this IObservable<TParameter> observable, VisualElement element,
+            Action<TParameter> preNavigation = null,
+            Action<TParameter> postNavigation = null,
+            bool animated = true,
             bool allowMultiple = false,
             TimeSpan? multiTapThrottleDuration = null)
-		{
-			return observable
+        {
+            return observable
                 .ThrottleFirst(multiTapThrottleDuration ?? DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
                 .Where(_ => allowMultiple || !Navigating)
                 .Do(_ => Navigating = true)
@@ -150,8 +150,8 @@ namespace EightBot.BigBang.XamForms
                         return Unit.Default;
                     })
                 .Subscribe();
-		}
-        
+        }
+
         public static IDisposable NavigatePopToRoot<TParameter>(this IObservable<TParameter> observable, VisualElement element,
             Action<TParameter> preNavigation = null,
             Action<TParameter> postNavigation = null,
@@ -183,17 +183,17 @@ namespace EightBot.BigBang.XamForms
                 .Subscribe();
         }
 
-		public static IDisposable NavigateToModalPage<TParameter, TPage>(this IObservable<TParameter> observable, VisualElement element,
-			Func<TParameter, TPage> pageCreator,
-			Action<TPage, TParameter> preNavigation = null,
-			Action<TPage, TParameter> postNavigation = null,
-			bool animated = true,
-			bool allowMultiple = false,
+        public static IDisposable NavigateToModalPage<TParameter, TPage>(this IObservable<TParameter> observable, VisualElement element,
+            Func<TParameter, TPage> pageCreator,
+            Action<TPage, TParameter> preNavigation = null,
+            Action<TPage, TParameter> postNavigation = null,
+            bool animated = true,
+            bool allowMultiple = false,
             IScheduler pageCreationScheduler = null,
             TimeSpan? multiTapThrottleDuration = null)
-			where TPage : Page
-		{
-			return observable
+            where TPage : Page
+        {
+            return observable
                 .ThrottleFirst(multiTapThrottleDuration ?? DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
                 .Where(_ => allowMultiple || !Navigating)
                 .Do(_ => Navigating = true)
@@ -210,15 +210,15 @@ namespace EightBot.BigBang.XamForms
                         {
                             return (Page: default(TPage), Parameter: x, AppearingTask: Task.CompletedTask);
                         }
-                        
+
                     })
                 .ObserveOn(RxApp.MainThreadScheduler)
-				.SelectMany(
+                .SelectMany(
                     async x =>
-    				{
+                    {
                         try
                         {
-                            if(x.Page != default(TPage))
+                            if (x.Page != default(TPage))
                             {
                                 preNavigation?.Invoke(x.Page, x.Parameter);
                                 await Task.WhenAll(
@@ -235,23 +235,23 @@ namespace EightBot.BigBang.XamForms
                         return Unit.Default;
                     })
                 .Subscribe();
-		}
+        }
 
-		public static IDisposable NavigatePopModalPage<TParameter>(this IObservable<TParameter> observable, VisualElement element,
-			Action<TParameter> preNavigation = null,
-			Action<TParameter> postNavigation = null,
+        public static IDisposable NavigatePopModalPage<TParameter>(this IObservable<TParameter> observable, VisualElement element,
+            Action<TParameter> preNavigation = null,
+            Action<TParameter> postNavigation = null,
             bool animated = true,
             bool allowMultiple = false,
             TimeSpan? multiTapThrottleDuration = null)
-		{
-			return observable
+        {
+            return observable
                 .ThrottleFirst(multiTapThrottleDuration ?? DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
                 .Where(_ => allowMultiple || !Navigating)
                 .Do(_ => Navigating = true)
-				.ObserveOn(RxApp.MainThreadScheduler)
-				.SelectMany(
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .SelectMany(
                     async parameter =>
-    				{
+                    {
                         try
                         {
                             preNavigation?.Invoke(parameter);
@@ -266,6 +266,6 @@ namespace EightBot.BigBang.XamForms
                         return Unit.Default;
                     })
                 .Subscribe();
-		}
-	}
+        }
+    }
 }

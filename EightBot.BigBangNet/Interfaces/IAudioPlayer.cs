@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace EightBot.BigBang.Interfaces
 {
-	public interface IAudioPlayer
-	{
-		Task<bool> PlayAudioFile (string file);
-	}
+    public interface IAudioPlayer
+    {
+        Task<bool> PlayAudioFile(string file);
+    }
 }
 

@@ -1,11 +1,11 @@
 ﻿using System;
 using EightBot.BigBang.Sample.ViewModels;
-using EightBot.BigBang.XamForms.Pages;
-using Xamarin.Forms;
+using EightBot.BigBang.Maui.Pages;
+using Microsoft.Maui;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
-using EightBot.BigBang.XamForms;
-using EightBot.BigBang.XamForms.PopUp;
+using EightBot.BigBang.Maui;
+using EightBot.BigBang.Maui.PopUp;
 
 namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 {
@@ -25,7 +25,7 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
             this.Content =
                 new StackLayout
                 {
-                    BackgroundColor = Color.White,
+                    BackgroundColor = Colors.White,
                     Children =
                     {
                         (_navBtn = new Button { Text = "Push Modal", VerticalOptions = LayoutOptions.CenterAndExpand, }),

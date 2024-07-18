@@ -32,13 +32,13 @@ namespace EightBot.BigBang
             return source
                 .Select(_ => Unit.Default);
         }
-        
+
         public static IObservable<object> AsObject<TSource>(this IObservable<TSource> source)
         {
             return source
                 .Select(x => x as object);
         }
-        
+
         public static IObservable<Unit> SelectConcurrent<T>(this IObservable<T> source, Action<T> onNext, int concurrentSubscriptions = 1, IScheduler scheduler = null)
         {
             if (scheduler != null)
@@ -54,8 +54,8 @@ namespace EightBot.BigBang
             }
 
             return source
-                .Select(x => 
-                    Observable.Defer(() => 
+                .Select(x =>
+                    Observable.Defer(() =>
                         Observable.Start(() => onNext(x))))
                 .Merge(concurrentSubscriptions);
         }
@@ -437,12 +437,12 @@ namespace EightBot.BigBang
         {
             return source.Where(obj => obj == null);
         }
-        
+
         public static IObservable<TSource> IsDefault<TSource>(this IObservable<TSource> source)
         {
             return source.Where(obj => EqualityComparer<TSource>.Default.Equals(obj, default(TSource)));
         }
-        
+
         public static IObservable<TSource> IsNotDefault<TSource>(this IObservable<TSource> source)
         {
             return source.Where(obj => !EqualityComparer<TSource>.Default.Equals(obj, default(TSource)));
@@ -477,7 +477,7 @@ namespace EightBot.BigBang
             return source.Where(str => !string.IsNullOrEmpty(str));
         }
 
-        public static IObservable<T> GetValueOrDefault<T>(this IObservable<T?> source, T defaultValue = default(T)) 
+        public static IObservable<T> GetValueOrDefault<T>(this IObservable<T?> source, T defaultValue = default(T))
             where T : struct
         {
             return source.Select(x => x ?? defaultValue);
@@ -512,12 +512,12 @@ namespace EightBot.BigBang
         {
             return source.Select(result => result);
         }
-        
+
         public static IObservable<T> TakeOne<T>(this IObservable<T> source)
         {
             return source.Take(1);
         }
-        
+
         public static IObservable<T> SkipOne<T>(this IObservable<T> source)
         {
             return source.Skip(1);
@@ -530,7 +530,7 @@ namespace EightBot.BigBang
                 .Select(
                     data =>
                     {
-                        if(data  == null)
+                        if (data == null)
                         {
                             return Observable.Empty<PropertyChangedEventArgs>();
                         }
@@ -564,7 +564,7 @@ namespace EightBot.BigBang
                 });
         }
 
-        public static IObservable<T> ThrottleFirst <T>(this IObservable<T> source, Action<T> beforeThrottle, Action<T> afterThrottle, TimeSpan delay, IScheduler beforeAndAfterThrottleScheduler = null,IScheduler scheduler = null)
+        public static IObservable<T> ThrottleFirst<T>(this IObservable<T> source, Action<T> beforeThrottle, Action<T> afterThrottle, TimeSpan delay, IScheduler beforeAndAfterThrottleScheduler = null, IScheduler scheduler = null)
         {
             scheduler = scheduler ?? Scheduler.Default;
             beforeAndAfterThrottleScheduler = beforeAndAfterThrottleScheduler ?? Scheduler.Default;
@@ -782,7 +782,7 @@ namespace EightBot.BigBang
             });
         }
 
-        public static IDisposable BindInteraction<TInput, TOutput>(this IObservable<Interaction<TInput, TOutput>> interactionObservable, Action<InteractionContext<TInput, TOutput>> handler)
+        public static IDisposable BindInteraction<TInput, TOutput>(this IObservable<Interaction<TInput, TOutput>> interactionObservable, Action<IInteractionContext<TInput, TOutput>> handler)
         {
             var interactionDisposable = new SerialDisposable();
 
@@ -794,7 +794,7 @@ namespace EightBot.BigBang
                     .Subscribe();
         }
 
-        public static IDisposable BindInteraction<TInput, TOutput>(this IObservable<Interaction<TInput, TOutput>> interactionObservable, Func<InteractionContext<TInput, TOutput>, Task> handler)
+        public static IDisposable BindInteraction<TInput, TOutput>(this IObservable<Interaction<TInput, TOutput>> interactionObservable, Func<IInteractionContext<TInput, TOutput>, Task> handler)
         {
             var interactionDisposable = new SerialDisposable();
 
@@ -806,7 +806,7 @@ namespace EightBot.BigBang
                     .Subscribe();
         }
 
-        public static IDisposable BindInteraction<TInput, TOutput, TDontCare>(this IObservable<Interaction<TInput, TOutput>> interactionObservable, Func<InteractionContext<TInput, TOutput>, IObservable<TDontCare>> handler)
+        public static IDisposable BindInteraction<TInput, TOutput, TDontCare>(this IObservable<Interaction<TInput, TOutput>> interactionObservable, Func<IInteractionContext<TInput, TOutput>, IObservable<TDontCare>> handler)
         {
             var interactionDisposable = new SerialDisposable();
 

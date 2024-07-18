@@ -23,7 +23,7 @@ namespace EightBot.BigBang
                     x => collection.CollectionChanged += x,
                     x => collection.CollectionChanged -= x);
         }
-        
+
         public static IObservable<PropertyChangedEventArgs> ObservePropertyChanged<T>(this T obj)
             where T : class, INotifyPropertyChanged
         {
@@ -40,7 +40,7 @@ namespace EightBot.BigBang
                     x => obj.PropertyChanged += x,
                     x => obj.PropertyChanged -= x);
         }
-        
+
         public static IObservable<PropertyChangingEventArgs> ObservePropertyChanging<T>(this T obj)
             where T : class, INotifyPropertyChanging
         {

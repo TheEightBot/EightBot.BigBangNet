@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using EightBot.BigBang.ViewModel;
 using ReactiveUI;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.Pages
+namespace EightBot.BigBang.Maui.Pages
 {
-    public abstract class MasterDetailPageBase<TViewModel> : ReactiveUI.XamForms.ReactiveMasterDetailPage<TViewModel>, IEnableLogger
+    public abstract class MasterDetailPageBase<TViewModel> : ReactiveUI.Maui.ReactiveMasterDetailPage<TViewModel>, IEnableLogger
         where TViewModel : class
     {
         readonly Subject<LifecycleEvent> _lifecycle = new Subject<LifecycleEvent>();
@@ -77,33 +77,27 @@ namespace EightBot.BigBang.XamForms.Pages
             base.OnDisappearing();
         }
 
-        protected override async void OnPropertyChanged(string propertyName = null)
+        protected override void OnPropertyChanged(string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName.Equals(Values.XamarinFormsHiddenProperties.RendererProperty, StringComparison.OrdinalIgnoreCase))
+            if (!(propertyName?.Equals(nameof(Window)) ?? false))
             {
-                var rendererResolver = Service.RendererResolver;
-
-                if (rendererResolver.HasRenderer(this))
-                {
-                    RegisterBindings();
-
-                    _lifecycle?.OnNext(LifecycleEvent.Activated);
-                }
-                else
-                {
-                    //MTS: There is a timing bug with UWP when removing a page that can cause quickly disposed of elements to choke it out
-                    if (Device.RuntimePlatform == Device.UWP)
-                    {
-                        await Task.Delay(34);
-                    }
-
-                    _lifecycle?.OnNext(LifecycleEvent.Deactivated);
-
-                    UnregisterBindings();
-                }
+                return;
             }
+
+            if (Window is not null)
+            {
+                RegisterBindings();
+
+                _lifecycle?.OnNext(LifecycleEvent.Activated);
+
+                return;
+            }
+
+            _lifecycle?.OnNext(LifecycleEvent.Deactivated);
+
+            UnregisterBindings();
         }
 
         protected virtual void Initialize() { }

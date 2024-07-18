@@ -6,10 +6,10 @@ using ReactiveUI.Fody.Helpers;
 
 namespace EightBot.BigBang.ViewModel
 {
-	public class FileInformationViewModel : ViewModelBase
-	{
+    public class FileInformationViewModel : ViewModelBase
+    {
         public enum StatusState
-        { 
+        {
             Unknown = 0,
             Successful = 1,
             FileNotFound = 2,
@@ -20,11 +20,11 @@ namespace EightBot.BigBang.ViewModel
         }
 
 
-		[Reactive]
-		public string FileName { get; set; }
+        [Reactive]
+        public string FileName { get; set; }
 
-		[Reactive]
-		public byte[] Data { get; set; }
+        [Reactive]
+        public byte[] Data { get; set; }
 
         [Reactive]
         public long FileLength { get; set; }
@@ -36,7 +36,7 @@ namespace EightBot.BigBang.ViewModel
         public StatusState Status { get; set; }
 
         protected override void RegisterObservables()
-		{
-		}
-	}
+        {
+        }
+    }
 }

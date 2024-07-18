@@ -17,7 +17,7 @@ using ReactiveUI.Fody.Helpers;
 
 namespace EightBot.BigBang.ViewModel
 {
-    public abstract class ViewModelBase : ReactiveObject, IEnableLogger 
+    public abstract class ViewModelBase : ReactiveObject, IEnableLogger
     {
         private readonly object _bindingLock = new object();
 
@@ -26,7 +26,7 @@ namespace EightBot.BigBang.ViewModel
 
         int _loadingCount;
         string _viewModelName = null;
-        
+
         protected bool _isLoading, _bindingsRegistered, _maintainBindings;
 
         public bool IsLoading
@@ -63,16 +63,16 @@ namespace EightBot.BigBang.ViewModel
         protected ViewModelBase(bool registerObservables = true)
         {
             IDisposable performanceLogger = null;
-            
+
             if (GlobalConfiguration.LogPerformanceMetrics)
             {
                 _viewModelName = this.GetType().Name;
-            
+
                 performanceLogger =
                     new Helpers.PerformanceCapture(ts =>
                         this.Log().Debug($"{"[Initialize]",-25}{_viewModelName,-25}{$"{ts.TotalMilliseconds:N1}ms",25}"));
-            }         
-        
+            }
+
             Initialize();
 
             performanceLogger?.Dispose();
@@ -99,14 +99,14 @@ namespace EightBot.BigBang.ViewModel
                 Volatile.Write(ref _bindingsRegistered, true);
 
                 IDisposable performanceLogger = null;
-                
+
                 if (GlobalConfiguration.LogPerformanceMetrics)
                 {
                     performanceLogger =
                         new Helpers.PerformanceCapture(ts =>
                             this.Log().Debug($"{"[Register Observables]",-25}{_viewModelName,-25}{$"{ts.TotalMilliseconds:N1}ms",25}"));
-                }         
-        
+                }
+
                 RegisterObservables();
 
                 performanceLogger?.Dispose();

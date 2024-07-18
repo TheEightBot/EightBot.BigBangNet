@@ -1,5 +1,5 @@
 ﻿using System;
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public enum LifecycleEvent
     {

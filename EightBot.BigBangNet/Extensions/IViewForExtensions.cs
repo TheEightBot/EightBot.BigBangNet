@@ -6,8 +6,8 @@ using ReactiveUI;
 
 namespace EightBot.BigBang
 {
-	public static class IViewForExtensions
-	{
+    public static class IViewForExtensions
+    {
         public static IDisposable RegisterViewModelBindings<TViewModel>(this IViewFor<TViewModel> view)
             where TViewModel : class
         {

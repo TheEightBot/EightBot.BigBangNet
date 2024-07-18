@@ -1,11 +1,11 @@
 ﻿using System;
-using EightBot.BigBang.XamForms.Effects;
-using Xamarin.Forms;
+using EightBot.BigBang.Maui.Effects;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.Effects
+namespace EightBot.BigBang.Maui.Effects
 {
-	public static class EffectNames
-	{
+    public static class EffectNames
+    {
         public const string
             EffectNameRoot = "EightBot",
             SelectTextOnFocusEffect = EffectNameRoot + "." + nameof(SelectTextOnFocusEffect),
@@ -20,35 +20,35 @@ namespace EightBot.BigBang.XamForms.Effects
             ListViewScrollPositionEffect = EffectNameRoot + "." + nameof(ListViewScrollPositionEffect),
             ListViewActivationEffect = EffectNameRoot + "." + nameof(ListViewActivationEffect);
 
-		public class SelectTextOnFocusRoutingEffect : RoutingEffect
-		{
-			public SelectTextOnFocusRoutingEffect() : base(SelectTextOnFocusEffect) { }
-		}
+        public class SelectTextOnFocusRoutingEffect : RoutingEffect
+        {
+            public SelectTextOnFocusRoutingEffect() : base(SelectTextOnFocusEffect) { }
+        }
 
-		public class NoCellSelectionStyleRoutingEffect : RoutingEffect
-		{
-			public NoCellSelectionStyleRoutingEffect() : base(NoCellSelectionEffect) { }
-		}
+        public class NoCellSelectionStyleRoutingEffect : RoutingEffect
+        {
+            public NoCellSelectionStyleRoutingEffect() : base(NoCellSelectionEffect) { }
+        }
 
-		public class ListViewHideEmptyCellsRoutingEffect : RoutingEffect
-		{
-			public ListViewHideEmptyCellsRoutingEffect() : base(ListViewHideEmptyCellsEffect) { }
-		}
+        public class ListViewHideEmptyCellsRoutingEffect : RoutingEffect
+        {
+            public ListViewHideEmptyCellsRoutingEffect() : base(ListViewHideEmptyCellsEffect) { }
+        }
 
-		public class KeyboardReturnKeyTypeNameRoutingEffect : RoutingEffect
-		{
-			public KeyboardReturnKeyTypeNameRoutingEffect() : base(KeyboardReturnKeyTypeNameEffect) { }
-		}
+        public class KeyboardReturnKeyTypeNameRoutingEffect : RoutingEffect
+        {
+            public KeyboardReturnKeyTypeNameRoutingEffect() : base(KeyboardReturnKeyTypeNameEffect) { }
+        }
 
-		public class NoControlChromeEffectRoutingEffect : RoutingEffect
-		{
-			public NoControlChromeEffectRoutingEffect() : base(NoControlChromeEffect) { }
-		}
+        public class NoControlChromeEffectRoutingEffect : RoutingEffect
+        {
+            public NoControlChromeEffectRoutingEffect() : base(NoControlChromeEffect) { }
+        }
 
-		public class ShowKeyboardDoneButtonRoutingEffect : RoutingEffect
-		{
-			public ShowKeyboardDoneButtonRoutingEffect() : base(ShowKeyboardDoneButtonEffect) { }
-		}
+        public class ShowKeyboardDoneButtonRoutingEffect : RoutingEffect
+        {
+            public ShowKeyboardDoneButtonRoutingEffect() : base(ShowKeyboardDoneButtonEffect) { }
+        }
 
         public class ListViewActivationRoutingEffect : RoutingEffect
         {

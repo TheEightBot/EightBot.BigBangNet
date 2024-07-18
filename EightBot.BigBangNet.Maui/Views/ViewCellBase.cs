@@ -1,23 +1,23 @@
 ﻿using System;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Reactive.Disposables;
-using EightBot.BigBang.XamForms.Values;
-using EightBot.BigBang.XamForms.Interfaces;
+using EightBot.BigBang.Maui.Values;
+using EightBot.BigBang.Maui.Interfaces;
 using EightBot.BigBang.ViewModel;
-using EightBot.BigBang.XamForms;
-using ReactiveUI.XamForms;
+using EightBot.BigBang.Maui;
+using ReactiveUI.Maui;
 using Splat;
 using System.Reactive.Subjects;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 
-namespace EightBot.BigBang.XamForms.Views
+namespace EightBot.BigBang.Maui.Views
 {
-	public abstract class ViewCellBase<TViewModel> : ReactiveViewCell<TViewModel>, IEnableLogger
+    public abstract class ViewCellBase<TViewModel> : ReactiveViewCell<TViewModel>, IEnableLogger
         where TViewModel : class
-	{
+    {
         readonly Subject<LifecycleEvent> _lifecycle = new Subject<LifecycleEvent>();
         public IObservable<Unit> Activated => _lifecycle.Where(x => x == LifecycleEvent.Activated).SelectUnit().AsObservable();
         public IObservable<Unit> Deactivated => _lifecycle.Where(x => x == LifecycleEvent.Deactivated).SelectUnit().AsObservable();
@@ -67,30 +67,28 @@ namespace EightBot.BigBang.XamForms.Views
         {
             base.OnPropertyChanged(propertyName);
 
-            if (
-                propertyName.Equals(Values.XamarinFormsHiddenProperties.RendererProperty, StringComparison.OrdinalIgnoreCase) ||
-                propertyName.Equals(Values.XamarinFormsHiddenProperties.RealCellProperty, StringComparison.OrdinalIgnoreCase))
+            if (!(propertyName?.Equals(nameof(Window)) ?? false))
             {
-                var rendererResolver = Service.RendererResolver;
-
-                if (rendererResolver.HasCellRenderer(this))
-                {
-                    RegisterBindings();
-
-                    _lifecycle?.OnNext(LifecycleEvent.Activated);
-                }
-                else
-                {
-                    _lifecycle?.OnNext(LifecycleEvent.Deactivated);
-
-                    UnregisterBindings();
-                }
+                return;
             }
+
+            if (this.GetVisualElementWindow() is not null)
+            {
+                RegisterBindings();
+
+                _lifecycle?.OnNext(LifecycleEvent.Activated);
+
+                return;
+            }
+
+            _lifecycle?.OnNext(LifecycleEvent.Deactivated);
+
+            UnregisterBindings();
         }
 
         protected virtual void Initialize() { }
         protected abstract void SetupUserInterface();
-		protected abstract void BindControls();
+        protected abstract void BindControls();
 
         protected void RegisterBindings()
         {
@@ -200,24 +198,23 @@ namespace EightBot.BigBang.XamForms.Views
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName.Equals(Values.XamarinFormsHiddenProperties.RendererProperty, StringComparison.OrdinalIgnoreCase) ||
-                propertyName.Equals(Values.XamarinFormsHiddenProperties.RealCellProperty, StringComparison.OrdinalIgnoreCase))
+            if (!(propertyName?.Equals(nameof(Window)) ?? false))
             {
-                var rendererResolver = Service.RendererResolver;
-
-                if (rendererResolver.HasCellRenderer(this))
-                {
-                    RegisterBindings();
-
-                    _lifecycle?.OnNext(LifecycleEvent.Activated);
-                }
-                else
-                {
-                    _lifecycle?.OnNext(LifecycleEvent.Deactivated);
-
-                    UnregisterBindings();
-                }
+                return;
             }
+
+            if (this.GetVisualElementWindow() is not null)
+            {
+                RegisterBindings();
+
+                _lifecycle?.OnNext(LifecycleEvent.Activated);
+
+                return;
+            }
+
+            _lifecycle?.OnNext(LifecycleEvent.Deactivated);
+
+            UnregisterBindings();
         }
 
         protected virtual void Initialize() { }

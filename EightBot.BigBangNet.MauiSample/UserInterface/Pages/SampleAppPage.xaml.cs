@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Reactive.Linq;
 using EightBot.BigBang.Sample.ViewModels;
-using EightBot.BigBang.XamForms.Effects;
-using EightBot.BigBang.XamForms.Pages;
+using EightBot.BigBang.Maui.Effects;
+using EightBot.BigBang.Maui.Pages;
 using ReactiveUI;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using Microsoft.Maui;
 using System.Reactive.Disposables;
-using EightBot.BigBang.XamForms;
+using EightBot.BigBang.Maui;
 
 namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 {
-	public partial class SampleAppPage : ContentPageBase<SampleViewModel>
-	{
-		public SampleAppPage()
-		{
+    public partial class SampleAppPage : ContentPageBase<SampleViewModel>
+    {
+        public SampleAppPage()
+        {
             this.ViewModel = new SampleViewModel();
-		}
+        }
 
-		protected override void SetupUserInterface()
-		{
-        	InitializeComponent();
-		}
+        protected override void SetupUserInterface()
+        {
+            InitializeComponent();
+        }
 
         protected override void BindControls()
         {
@@ -93,20 +92,22 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
                     x => NumericToCurrencyTest.TextChanged += x,
                     x => NumericToCurrencyTest.TextChanged -= x)
                 .Select(x => x.NewTextValue)
-                .Select(x => {
+                .Select(x =>
+                {
                     var toCurrency = new TypeConverters.ToCurrencyConverter();
                     object result;
                     toCurrency.TryConvert(x, typeof(decimal), null, out result);
                     return (decimal)result;
                 })
-                .Subscribe(x => {
+                .Subscribe(x =>
+                {
                     ViewModel.DecimalProperty = x;
                 })
                 .DisposeWith(ControlBindings);
         }
 
-		async void Handle_Clicked(object sender, System.EventArgs e)
-		{
+        async void Handle_Clicked(object sender, System.EventArgs e)
+        {
             Page page = null;
 
             if (sender == TabbarInactiveColorEffect)
@@ -143,6 +144,6 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 
             if (page != null)
                 await this.Navigation.PushAsync(page);
-		}
-	}
+        }
+    }
 }

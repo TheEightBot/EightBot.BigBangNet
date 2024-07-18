@@ -1,12 +1,12 @@
 using System;
 using EightBot.BigBang.Sample.Models;
 using EightBot.BigBang.Sample.ViewModels;
-using EightBot.BigBang.XamForms;
+using EightBot.BigBang.Maui;
 using ReactiveUI;
-using ReactiveUI.XamForms;
-using Xamarin.Forms;
+using ReactiveUI.Maui;
+using Microsoft.Maui;
 using System.Reactive.Disposables;
-using EightBot.BigBang.XamForms.Views;
+using EightBot.BigBang.Maui.Views;
 
 namespace EightBot.BigBang.SampleApp.UserInterface.Cells
 {
@@ -18,10 +18,11 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Cells
 
         protected override void SetupUserInterface()
         {
-            _stringProperty = new Label { 
+            _stringProperty = new Label
+            {
                 Margin = 8,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.FillAndExpand,                    
+                VerticalOptions = LayoutOptions.FillAndExpand,
             };
 
             _tapped = new TapGestureRecognizer();

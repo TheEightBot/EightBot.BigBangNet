@@ -6,15 +6,15 @@ using ReactiveUI;
 
 namespace EightBot.BigBang
 {
-	public static class IViewForExtensions
-	{
+    public static class IViewForExtensions
+    {
 
-		public static IObservable<ValidationInformation> MonitorValidationInformationFor<TViewModel, TProperty>(this IViewFor<TViewModel> view, Expression<Func<TViewModel, TProperty>> property) 
-            where TViewModel: ValidationViewModelBase<TViewModel> 
+        public static IObservable<ValidationInformation> MonitorValidationInformationFor<TViewModel, TProperty>(this IViewFor<TViewModel> view, Expression<Func<TViewModel, TProperty>> property)
+            where TViewModel : ValidationViewModelBase<TViewModel>
         {
-			return view
-				.WhenAnyValue(x => x.ViewModel)
-				.SelectMany(x => x.MonitorValidationInformationFor(property));
-		}
+            return view
+                .WhenAnyValue(x => x.ViewModel)
+                .SelectMany(x => x.MonitorValidationInformationFor(property));
+        }
     }
 }

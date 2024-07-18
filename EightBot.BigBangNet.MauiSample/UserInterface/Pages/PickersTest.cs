@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
-using EightBot.BigBang.XamForms;
-using EightBot.BigBang.XamForms.Pages;
+using Microsoft.Maui;
+using EightBot.BigBang.Maui;
+using EightBot.BigBang.Maui.Pages;
 using EightBot.BigBang.ViewModel;
 using System.Collections.ObjectModel;
 using System.Reactive;
@@ -11,8 +11,8 @@ using ReactiveUI;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Reactive.Disposables;
-using ReactiveUI.Fody.Helpers;
 using System.Linq;
+using ReactiveUI.Fody.Helpers;
 
 namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 {
@@ -44,7 +44,7 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
         protected override void SetupUserInterface()
         {
             var stackLayout = new StackLayout { };
-        
+
             _firstPicker = new Picker();
 
             stackLayout.Children.Add(_firstPicker);
@@ -65,7 +65,7 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 
             stackLayout.Children.Add(_clearSelectedItem);
 
-            this.Content = stackLayout;            
+            this.Content = stackLayout;
         }
 
         protected override void BindControls()
@@ -138,7 +138,7 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
             this.ViewModel.SelectedPickerObject = null;
         }
     }
-    
+
     public class PickersTestVM : ViewModelBase
     {
         ObservableCollection<PickerTestObject> _pickerObjects;
@@ -174,7 +174,7 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 
             SelectedPickerObject = _lateAddObject;
 
-            PickerObjects = 
+            PickerObjects =
                 new ObservableCollection<PickerTestObject>();
 
             var categories =
@@ -219,11 +219,11 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
                 .DisposeWith(ViewModelBindings);
         }
     }
-    
+
     public class PickerTestObject
     {
         public string PropertyOne { get; set; }
-        
+
         public string PropertyTwo { get; set; }
     }
 

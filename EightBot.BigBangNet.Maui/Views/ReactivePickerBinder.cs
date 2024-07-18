@@ -5,21 +5,22 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
-using EightBot.BigBang.XamForms.Views;
+using EightBot.BigBang.Maui.Views;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Globalization;
 using System.Collections;
 using System.Collections.Specialized;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
-    public static class PickerExtensions{
+    public static class PickerExtensions
+    {
         public static ReactivePickerBinder<TViewModel> Bind<TViewModel>(this Picker picker, IEnumerable<TViewModel> items, Action<TViewModel> selectedItemChanged, Func<TViewModel, bool> selectItem, Func<TViewModel, string> titleSelector)
         {
-            return new ReactivePickerBinder<TViewModel> (picker, items, selectedItemChanged, selectItem, titleSelector, null);
+            return new ReactivePickerBinder<TViewModel>(picker, items, selectedItemChanged, selectItem, titleSelector, null);
         }
-        
+
         public static ReactivePickerBinder<TViewModel> Bind<TViewModel, TDontCare>(this Picker picker,
             IEnumerable<TViewModel> items,
             Action<TViewModel> selectedItemChanged,
@@ -34,12 +35,12 @@ namespace EightBot.BigBang.XamForms
 
             return new ReactivePickerBinder<TViewModel>(picker, items, selectedItemChanged, selectItem, titleSelector, refresh);
         }
-        
+
         public static ReactivePickerBinder<TViewModel> Bind<TViewModel>(this Picker picker, IObservable<IEnumerable<TViewModel>> items, Action<TViewModel> selectedItemChanged, Func<TViewModel, bool> selectItem, Func<TViewModel, string> titleSelector)
         {
-            return new ReactivePickerBinder<TViewModel> (picker, items, selectedItemChanged, selectItem, titleSelector, null);
+            return new ReactivePickerBinder<TViewModel>(picker, items, selectedItemChanged, selectItem, titleSelector, null);
         }
-        
+
         public static ReactivePickerBinder<TViewModel> Bind<TViewModel, TDontCare>(this Picker picker,
             IObservable<IEnumerable<TViewModel>> items,
             Action<TViewModel> selectedItemChanged,
@@ -55,14 +56,15 @@ namespace EightBot.BigBang.XamForms
             return new ReactivePickerBinder<TViewModel>(picker, items, selectedItemChanged, selectItem, titleSelector, refresh);
         }
 
-        public static void ResetToInitialValue(this Picker picker){
+        public static void ResetToInitialValue(this Picker picker)
+        {
             picker.SelectedItem = null;
             picker.SelectedIndex = -1;
         }
     }
 }
 
-namespace EightBot.BigBang.XamForms.Views
+namespace EightBot.BigBang.Maui.Views
 {
     public class ReactivePickerBinder<TViewModel> : IDisposable
     {
@@ -86,8 +88,8 @@ namespace EightBot.BigBang.XamForms.Views
 
         // Constructors
 
-        public ReactivePickerBinder (Picker picker, IEnumerable<TViewModel> items, 
-            Action<TViewModel> selectedItemChanged, Func<TViewModel, bool> selectItem, Func<TViewModel, string> titleSelector, 
+        public ReactivePickerBinder(Picker picker, IEnumerable<TViewModel> items,
+            Action<TViewModel> selectedItemChanged, Func<TViewModel, bool> selectItem, Func<TViewModel, string> titleSelector,
             IObservable<Unit> signalViewUpdate = null) : base()
         {
             _picker = picker;
@@ -168,8 +170,8 @@ namespace EightBot.BigBang.XamForms.Views
                 .DisposeWith(_disposableSubscriptions);
         }
 
-        public ReactivePickerBinder (Picker picker, IObservable<IEnumerable<TViewModel>> items, 
-            Action<TViewModel> selectedItemChanged, Func<TViewModel, bool> selectItem, Func<TViewModel, string> titleSelector, 
+        public ReactivePickerBinder(Picker picker, IObservable<IEnumerable<TViewModel>> items,
+            Action<TViewModel> selectedItemChanged, Func<TViewModel, bool> selectItem, Func<TViewModel, string> titleSelector,
             IObservable<Unit> signalViewUpdate = null) : base()
         {
             _picker = picker;
@@ -179,7 +181,7 @@ namespace EightBot.BigBang.XamForms.Views
             _selectedItemChanged = selectedItemChanged;
             _selectItem = selectItem;
 
-            _disposableSubscriptions = new CompositeDisposable ();
+            _disposableSubscriptions = new CompositeDisposable();
 
             Observable
                 .FromEvent<EventHandler<FocusEventArgs>, FocusEventArgs>(
@@ -194,7 +196,8 @@ namespace EightBot.BigBang.XamForms.Views
                 .Where(_ => Device.RuntimePlatform == Device.iOS)
                 .Where(args => args.IsFocused)
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Subscribe(args => {
+                .Subscribe(args =>
+                {
                     if (_picker != null && _picker.SelectedIndex < 0 && _picker.Items.Count > 0)
                         _picker.SelectedIndex = 0;
                 })
@@ -250,7 +253,7 @@ namespace EightBot.BigBang.XamForms.Views
         // Methods
         void SetItems(IList<TViewModel> items)
         {
-            if(_picker != null)
+            if (_picker != null)
             {
                 _picker.ItemsSource = (IList)items;
             }
@@ -259,17 +262,17 @@ namespace EightBot.BigBang.XamForms.Views
         void SetSelectedItem(bool fromNotificationTrigger = false)
         {
             var pickerItemCount = _picker?.ItemsSource?.Count ?? 0;
-            if (pickerItemCount <= 0) 
+            if (pickerItemCount <= 0)
             {
                 return;
             }
 
-            for (int index = 0; index < pickerItemCount; index++) 
+            for (int index = 0; index < pickerItemCount; index++)
             {
                 var itemAt = this.GetItemAt(index);
-                if(itemAt.Success && _selectItem.Invoke(itemAt.FoundItem))
+                if (itemAt.Success && _selectItem.Invoke(itemAt.FoundItem))
                 {
-                    if((itemAt.FoundItem?.Equals(default(TViewModel)) ?? false) || !EqualityComparer<TViewModel>.Default.Equals(itemAt.FoundItem, this.SelectedItem))
+                    if ((itemAt.FoundItem?.Equals(default(TViewModel)) ?? false) || !EqualityComparer<TViewModel>.Default.Equals(itemAt.FoundItem, this.SelectedItem))
                     {
                         SelectedItemChanged(itemAt.FoundItem);
                     }
@@ -277,7 +280,7 @@ namespace EightBot.BigBang.XamForms.Views
                 }
             }
 
-            if(fromNotificationTrigger)
+            if (fromNotificationTrigger)
             {
                 SelectedItemChanged(default(TViewModel));
             }
@@ -287,7 +290,7 @@ namespace EightBot.BigBang.XamForms.Views
         {
             _selectedItemChanged?.Invoke(item);
 
-            if(!fromUi)
+            if (!fromUi)
             {
                 if (_picker != null && (_picker.SelectedItem == null || !EqualityComparer<TViewModel>.Default.Equals(item, this.SelectedItem)))
                 {
@@ -305,8 +308,8 @@ namespace EightBot.BigBang.XamForms.Views
         {
             if (disposing)
             {
-                var subscriptions = Interlocked.Exchange (ref _disposableSubscriptions, null);
-                subscriptions?.Dispose ();
+                var subscriptions = Interlocked.Exchange(ref _disposableSubscriptions, null);
+                subscriptions?.Dispose();
 
                 _picker = null;
             }

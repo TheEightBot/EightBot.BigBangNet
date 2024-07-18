@@ -1,13 +1,13 @@
 ﻿using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.Views
+namespace EightBot.BigBang.Maui.Views
 {
     /// <summary>
     /// This is an <see cref="StackLayout"/> that is also an <see cref="IViewFor{T}"/>.
     /// </summary>
     /// <typeparam name="TViewModel">The type of the view model.</typeparam>
-    /// <seealso cref="Xamarin.Forms.StackLayout" />
+    /// <seealso cref="Microsoft.Maui.StackLayout" />
     /// <seealso cref="ReactiveUI.IViewFor{TViewModel}" />
     public class ReactiveStackLayout<TViewModel> : StackLayout, IViewFor<TViewModel>
         where TViewModel : class

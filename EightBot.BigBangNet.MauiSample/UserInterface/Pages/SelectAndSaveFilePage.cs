@@ -4,11 +4,11 @@ using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using EightBot.BigBang.Interfaces;
 using EightBot.BigBang.ViewModel;
-using EightBot.BigBang.XamForms.Pages;
+using EightBot.BigBang.Maui.Pages;
 using FluentValidation;
 using ReactiveUI;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Reactive.Disposables;
 
 namespace EightBot.BigBang.SampleApp.UserInterface.Pages
@@ -37,7 +37,8 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 
         protected override void SetupUserInterface()
         {
-            _fileInfo = new Label { 
+            _fileInfo = new Label
+            {
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalTextAlignment = TextAlignment.Center,
@@ -71,7 +72,7 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 
             protected override void RegisterObservables()
             {
-                TrySelectFile = 
+                TrySelectFile =
                     ReactiveCommand
                         .CreateFromTask(async _ =>
                         {

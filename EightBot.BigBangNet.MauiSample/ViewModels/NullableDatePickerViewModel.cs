@@ -32,7 +32,8 @@ namespace EightBot.BigBang.Sample.ViewModels
         DateTime? _nullablDateTimeOffset2;
 
         [DataMember]
-        public DateTime? NullableDateTimeOffset2 {
+        public DateTime? NullableDateTimeOffset2
+        {
             get { return _nullablDateTimeOffset2; }
             set { this.RaiseAndSetIfChanged(ref _nullablDateTimeOffset2, value); }
         }

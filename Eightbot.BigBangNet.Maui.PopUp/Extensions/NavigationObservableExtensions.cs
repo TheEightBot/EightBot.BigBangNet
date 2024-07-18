@@ -2,32 +2,32 @@
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using Rg.Plugins.Popup.Extensions;
-using Rg.Plugins.Popup.Pages;
-using Xamarin.Forms;
 using System.Reactive.Concurrency;
 using System.Threading;
 using System.Reactive;
+using EightBot.BigBang.Maui;
+using Mopups.Pages;
+using Mopups.Services;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
-	public static class PopupNavigationObservableExtensions
-	{
+    public static class PopupNavigationObservableExtensions
+    {
 
-		public static IDisposable NavigateToPopupPage<TParameter, TPage>(this IObservable<TParameter> observable,
-			Func<TParameter, TPage> pageCreator,
-			Action<TPage, TParameter> preNavigation = null,
-			Action<TPage, TParameter> postNavigation = null,
-			bool animated = true,
-			bool allowMultiple = false,
+        public static IDisposable NavigateToPopupPage<TParameter, TPage>(this IObservable<TParameter> observable,
+            Func<TParameter, TPage> pageCreator,
+            Action<TPage, TParameter> preNavigation = null,
+            Action<TPage, TParameter> postNavigation = null,
+            bool animated = true,
+            bool allowMultiple = false,
             IScheduler pageCreationScheduler = null,
             TimeSpan? multiTapThrottleDuration = null)
-			where TPage : PopupPage
-		{
+            where TPage : PopupPage
+        {
             return observable
-                .ThrottleFirst(multiTapThrottleDuration ?? XamForms.NavigationObservableExtensions.DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
-                .Where(_ => allowMultiple || !XamForms.NavigationObservableExtensions.Navigating)
-                .Do(_ => XamForms.NavigationObservableExtensions.Navigating = true)
+                .ThrottleFirst(multiTapThrottleDuration ?? NavigationObservableExtensions.DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
+                .Where(_ => allowMultiple || !NavigationObservableExtensions.Navigating)
+                .Do(_ => NavigationObservableExtensions.Navigating = true)
                 .ObserveOn(pageCreationScheduler ?? Schedulers.ShortTermThreadPoolScheduler)
                 .Select(
                     x =>
@@ -50,34 +50,33 @@ namespace EightBot.BigBang.XamForms
                         {
                             preNavigation?.Invoke(x.Page, x.Parameter);
 
-                            var nav = Rg.Plugins.Popup.Services.PopupNavigation.Instance;
                             await Task.WhenAll(
-                                x.AppearingTask, 
-                                nav.PushAsync(x.Page, animated));
+                                x.AppearingTask,
+                                MopupService.Instance.PushAsync(x.Page, animated));
 
                             postNavigation?.Invoke(x.Page, x.Parameter);
                         }
                         finally
                         {
-                            XamForms.NavigationObservableExtensions.Navigating = false;
+                            NavigationObservableExtensions.Navigating = false;
                         }
 
                         return Unit.Default;
                     })
-                .Subscribe();        
-		}
+                .Subscribe();
+        }
 
-		public static IDisposable NavigatePopPopupPage<TParameter>(this IObservable<TParameter> observable,
-			Action<TParameter> preNavigation = null,
-			Action<TParameter> postNavigation = null,
-			bool animated = true,
+        public static IDisposable NavigatePopPopupPage<TParameter>(this IObservable<TParameter> observable,
+            Action<TParameter> preNavigation = null,
+            Action<TParameter> postNavigation = null,
+            bool animated = true,
             bool allowMultiple = false,
             TimeSpan? multiTapThrottleDuration = null)
-		{
+        {
             return observable
-                .ThrottleFirst(multiTapThrottleDuration ?? XamForms.NavigationObservableExtensions.DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
-                .Where(_ => allowMultiple || !XamForms.NavigationObservableExtensions.Navigating)
-                .Do(_ => XamForms.NavigationObservableExtensions.Navigating = true)
+                .ThrottleFirst(multiTapThrottleDuration ?? NavigationObservableExtensions.DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
+                .Where(_ => allowMultiple || !NavigationObservableExtensions.Navigating)
+                .Do(_ => NavigationObservableExtensions.Navigating = true)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .SelectMany(
                     async parameter =>
@@ -85,20 +84,19 @@ namespace EightBot.BigBang.XamForms
                         try
                         {
                             preNavigation?.Invoke(parameter);
-                            var nav = Rg.Plugins.Popup.Services.PopupNavigation.Instance;
-                            await nav.PopAsync(animated);
+                            await MopupService.Instance.PopAsync(animated);
                             postNavigation?.Invoke(parameter);
 
                         }
                         finally
                         {
-                            XamForms.NavigationObservableExtensions.Navigating = false;
+                            NavigationObservableExtensions.Navigating = false;
                         }
 
                         return Unit.Default;
                     })
                 .Subscribe();
-		}
+        }
 
         public static IDisposable NavigatePopAllPopupPage<TParameter>(this IObservable<TParameter> observable,
             Action<TParameter> preNavigation = null,
@@ -108,9 +106,9 @@ namespace EightBot.BigBang.XamForms
             TimeSpan? multiTapThrottleDuration = null)
         {
             return observable
-                .ThrottleFirst(multiTapThrottleDuration ?? XamForms.NavigationObservableExtensions.DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
-                .Where(_ => allowMultiple || !XamForms.NavigationObservableExtensions.Navigating)
-                .Do(_ => XamForms.NavigationObservableExtensions.Navigating = true)
+                .ThrottleFirst(multiTapThrottleDuration ?? NavigationObservableExtensions.DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
+                .Where(_ => allowMultiple || !NavigationObservableExtensions.Navigating)
+                .Do(_ => NavigationObservableExtensions.Navigating = true)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .SelectMany(
                     async parameter =>
@@ -118,13 +116,12 @@ namespace EightBot.BigBang.XamForms
                         try
                         {
                             preNavigation?.Invoke(parameter);
-                            var nav = Rg.Plugins.Popup.Services.PopupNavigation.Instance;
-                            await nav.PopAllAsync(animated);
+                            await MopupService.Instance.PopAllAsync(animated);
                             postNavigation?.Invoke(parameter);
                         }
                         finally
                         {
-                            XamForms.NavigationObservableExtensions.Navigating = false;
+                            NavigationObservableExtensions.Navigating = false;
                         }
 
                         return Unit.Default;
@@ -142,9 +139,9 @@ namespace EightBot.BigBang.XamForms
             where TPage : PopupPage
         {
             return observable
-                .ThrottleFirst(multiTapThrottleDuration ?? XamForms.NavigationObservableExtensions.DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
-                .Where(_ => allowMultiple || !XamForms.NavigationObservableExtensions.Navigating)
-                .Do(_ => XamForms.NavigationObservableExtensions.Navigating = true)
+                .ThrottleFirst(multiTapThrottleDuration ?? NavigationObservableExtensions.DefaultMultiTapThrottleDuration, Schedulers.ShortTermThreadPoolScheduler)
+                .Where(_ => allowMultiple || !NavigationObservableExtensions.Navigating)
+                .Do(_ => NavigationObservableExtensions.Navigating = true)
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .SelectMany(
                     async parameter =>
@@ -152,18 +149,17 @@ namespace EightBot.BigBang.XamForms
                         try
                         {
                             preNavigation?.Invoke(page, parameter);
-                            var nav = Rg.Plugins.Popup.Services.PopupNavigation.Instance;
-                            await nav.RemovePageAsync(page, animated);
+                            await MopupService.Instance.RemovePageAsync(page, animated);
                             postNavigation?.Invoke(page, parameter);
                         }
                         finally
                         {
-                            XamForms.NavigationObservableExtensions.Navigating = false;
+                            NavigationObservableExtensions.Navigating = false;
                         }
 
                         return Unit.Default;
                     })
                 .Subscribe();
         }
-	}
+    }
 }

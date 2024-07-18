@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using ReactiveUI;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public abstract class StyleBase : ReactiveObject
     {
@@ -28,7 +28,7 @@ namespace EightBot.BigBang.XamForms
 
         protected abstract void RegisterStyles(Application app);
 
-        protected Style GetStyle(Func<Style> styleCreator, [CallerMemberName]string name = null)
+        protected Style GetStyle(Func<Style> styleCreator, [CallerMemberName] string name = null)
         {
             if (name == null)
             {

@@ -7,10 +7,10 @@ using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using ReactiveUI;
 using Splat;
-using Xamarin.Forms;
-using static EightBot.BigBang.XamForms.Effects.EffectNames;
+using Microsoft.Maui;
+using static EightBot.BigBang.Maui.Effects.EffectNames;
 
-namespace EightBot.BigBang.XamForms.Views
+namespace EightBot.BigBang.Maui.Views
 {
     public class ReactiveListView : ListView, IEnableLogger
     {
@@ -35,7 +35,7 @@ namespace EightBot.BigBang.XamForms.Views
             : base(cachingStrategy)
         {
 
-            if(Device.RuntimePlatform == Device.UWP)
+            if (Device.RuntimePlatform == Device.UWP)
             {
                 this.Effects.Add(new ListViewActivationRoutingEffect());
             }
@@ -57,7 +57,7 @@ namespace EightBot.BigBang.XamForms.Views
                     .Select(x => x.Item)
                     .OfType<T>();
         }
-        
+
         public IObservable<object> ListViewItemTapped()
         {
             return
@@ -72,7 +72,7 @@ namespace EightBot.BigBang.XamForms.Views
                         x => this.ItemTapped -= x)
                     .Select(args => args.Item);
         }
-        
+
         public IObservable<T> ListViewItemSelected<T>() where T : class
         {
             return
@@ -88,7 +88,7 @@ namespace EightBot.BigBang.XamForms.Views
                     .Select(x => x.SelectedItem)
                     .OfType<T>();
         }
-        
+
         public IObservable<object> ListViewItemSelected()
         {
             return
@@ -109,7 +109,7 @@ namespace EightBot.BigBang.XamForms.Views
             _cellActivatedAction = cellActivatedAction;
 
             return Disposable.Create(
-                () => 
+                () =>
                 {
                     _cellActivatedAction = null;
 
@@ -148,23 +148,23 @@ namespace EightBot.BigBang.XamForms.Views
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName.Equals(Values.XamarinFormsHiddenProperties.RendererProperty, StringComparison.OrdinalIgnoreCase))
+            if (!(propertyName?.Equals(nameof(Window)) ?? false))
             {
-                var rendererResolver = Service.RendererResolver;
+                return;
+            }
 
-                if (!rendererResolver.HasRenderer(this))
+            if (Window is null)
+            {
+                if (_cellActivators.Any())
                 {
-                    if (_cellActivators.Any())
-                    {
-                        var keys = _cellActivators.Keys.ToArray();
+                    var keys = _cellActivators.Keys.ToArray();
 
-                        foreach (var key in keys)
+                    foreach (var key in keys)
+                    {
+                        if (_cellActivators.TryRemove(key, out var disposable))
                         {
-                            if(_cellActivators.TryRemove(key, out var disposable))
-                            {
-                                disposable?.Dispose();
-                                disposable = null;
-                            }
+                            disposable?.Dispose();
+                            disposable = null;
                         }
                     }
                 }

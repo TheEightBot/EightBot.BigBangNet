@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.AttachedProperties
+namespace EightBot.BigBang.Maui.AttachedProperties
 {
     public class ListViewHideEmptyCellsProperty
     {
@@ -21,12 +21,13 @@ namespace EightBot.BigBang.XamForms.AttachedProperties
         public static BindableProperty HideEmptyCellsProperty =
             BindableProperty.CreateAttached(HideEmptyCellsPropertyName, typeof(bool),
                 typeof(ListView), false, defaultBindingMode: BindingMode.Default, propertyChanged: OnEventNameChanged);
-        
+
         static void OnEventNameChanged(BindableObject bindable, object oldValue, object newValue)
         {
 
             var listView = bindable as ListView;
-            if (listView == null) {
+            if (listView == null)
+            {
                 return;
             }
 
@@ -34,11 +35,12 @@ namespace EightBot.BigBang.XamForms.AttachedProperties
 
             var existingHideEmptyCellsEffect = listView.Effects.FirstOrDefault(x => x.ResolveId == Effects.EffectNames.ListViewHideEmptyCellsEffect);
 
-            if (enable && existingHideEmptyCellsEffect == null) {
+            if (enable && existingHideEmptyCellsEffect == null)
+            {
                 var hideEmptyCellsEffect = Effect.Resolve(Effects.EffectNames.ListViewHideEmptyCellsEffect);
                 listView.Effects.Add(hideEmptyCellsEffect);
-            } 
-            else if(existingHideEmptyCellsEffect != null)
+            }
+            else if (existingHideEmptyCellsEffect != null)
                 listView.Effects.Remove(existingHideEmptyCellsEffect);
         }
     }

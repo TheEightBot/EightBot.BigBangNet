@@ -1,13 +1,13 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using EightBot.BigBang.XamForms.Views;
+using EightBot.BigBang.Maui.Views;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public static class ReactiveListViewExtensions
     {

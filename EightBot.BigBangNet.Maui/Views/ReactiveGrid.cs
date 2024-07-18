@@ -1,13 +1,13 @@
 ﻿using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.Views
+namespace EightBot.BigBang.Maui.Views
 {
     /// <summary>
     /// This is an <see cref="Grid"/> that is also an <see cref="IViewFor{T}"/>.
     /// </summary>
     /// <typeparam name="TViewModel">The type of the view model.</typeparam>
-    /// <seealso cref="Xamarin.Forms.Grid" />
+    /// <seealso cref="Microsoft.Maui.Grid" />
     /// <seealso cref="ReactiveUI.IViewFor{TViewModel}" />
     public class ReactiveGrid<TViewModel> : Grid, IViewFor<TViewModel>
         where TViewModel : class

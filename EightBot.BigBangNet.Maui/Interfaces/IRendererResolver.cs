@@ -1,17 +1,17 @@
 ﻿using System;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.Interfaces
+namespace EightBot.BigBang.Maui.Interfaces
 {
-	public interface IRendererResolver
-	{
-		object GetRenderer(VisualElement element);
+    public interface IRendererResolver
+    {
+        object GetRenderer(VisualElement element);
 
-		bool HasRenderer(VisualElement element);
+        bool HasRenderer(VisualElement element);
 
         object GetCellRenderer(BindableObject element);
 
         bool HasCellRenderer(BindableObject element);
-	}
+    }
 }
 

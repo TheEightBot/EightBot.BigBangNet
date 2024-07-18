@@ -19,7 +19,7 @@ using System.ComponentModel;
 
 namespace EightBot.BigBang.ViewModel
 {
-    public abstract class ValidationViewModelBase<TValidationObject> : ViewModelBase 
+    public abstract class ValidationViewModelBase<TValidationObject> : ViewModelBase
         where TValidationObject : class
     {
         public static TimeSpan DefaultValidationChangeThrottleDuration = TimeSpan.FromMilliseconds(17 * 4);
@@ -38,12 +38,12 @@ namespace EightBot.BigBang.ViewModel
 
         protected AbstractValidator<TValidationObject> GetCachedValidator(Func<AbstractValidator<TValidationObject>> validatorCreation, string validatorName = null)
         {
-            if(_cachedValidator != null)
+            if (_cachedValidator != null)
             {
                 return _cachedValidator;
             }
 
-			var registeredInstance = Locator.Current.GetService<AbstractValidator<TValidationObject>>();
+            var registeredInstance = Locator.Current.GetService<AbstractValidator<TValidationObject>>();
 
             if (registeredInstance != default(AbstractValidator<TValidationObject>))
             {
@@ -68,15 +68,17 @@ namespace EightBot.BigBang.ViewModel
         {
         }
 
-        protected IDisposable RegisterValidation<TDoesntMatter>(IObservable<TDoesntMatter> validationTrigger) {
+        protected IDisposable RegisterValidation<TDoesntMatter>(IObservable<TDoesntMatter> validationTrigger)
+        {
             return RegisterValidation(validationTrigger?.Select(_ => Unit.Default), null, null);
         }
-        
-		protected IDisposable RegisterValidation(IObservable<Unit> validationTrigger = null, IScheduler observationScheduler = null, TimeSpan? changeThrottleDuration = null) 
-		{
-			var validatorDisposables = new StackCompositeDisposable();
 
-            if (validationTrigger == null){
+        protected IDisposable RegisterValidation(IObservable<Unit> validationTrigger = null, IScheduler observationScheduler = null, TimeSpan? changeThrottleDuration = null)
+        {
+            var validatorDisposables = new StackCompositeDisposable();
+
+            if (validationTrigger == null)
+            {
                 validationTrigger =
                     this.WhenAnyObservable(x => x.Changed)
                         .ObserveOn(RxApp.TaskpoolScheduler)
@@ -89,54 +91,56 @@ namespace EightBot.BigBang.ViewModel
                 validationTrigger
                     .ObserveOn(RxApp.TaskpoolScheduler)
                     .ThrottleFirst(changeThrottleDuration ?? DefaultValidationChangeThrottleDuration, RxApp.TaskpoolScheduler)
-					.Select(_ => Observable.FromAsync(token => Validator?.ValidateAsync(this as TValidationObject, token) ?? Task.FromResult(new ValidationResult())))
+                    .Select(_ => Observable.FromAsync(token => Validator?.ValidateAsync(this as TValidationObject, token) ?? Task.FromResult(new ValidationResult())))
                     .Switch()
                     .Do(result => this.Log().Debug($"Validated {typeof(TValidationObject).Name} : {result.IsValid} - {string.Join("\t", result.Errors.Select(x => x.ErrorMessage))}"))
                     .Publish().RefCount();
 
-			validator
-				.Select(x => x.IsValid)
-				.DistinctUntilChanged()
-				.ToProperty(this, x => x.IsValid, out _isValid, scheduler: observationScheduler ?? RxApp.MainThreadScheduler)
-				.DisposeWith(validatorDisposables);
-			
-			validator
+            validator
+                .Select(x => x.IsValid)
+                .DistinctUntilChanged()
+                .ToProperty(this, x => x.IsValid, out _isValid, scheduler: observationScheduler ?? RxApp.MainThreadScheduler)
+                .DisposeWith(validatorDisposables);
+
+            validator
                 .ObserveOn(RxApp.TaskpoolScheduler)
-				.Select(x => 
-		        	x.Errors
-			        	.Select(err =>
-							new ValidationInformation(err.PropertyName, err.ErrorMessage, err.AttemptedValue) 
-                            { 
-								ErrorCode = err.ErrorCode
-						    })
-				        .ToList())
-				.ObserveOn(observationScheduler ?? RxApp.MainThreadScheduler)
-		        .Subscribe(errors => {
+                .Select(x =>
+                    x.Errors
+                        .Select(err =>
+                            new ValidationInformation(err.PropertyName, err.ErrorMessage, err.AttemptedValue)
+                            {
+                                ErrorCode = err.ErrorCode
+                            })
+                        .ToList())
+                .ObserveOn(observationScheduler ?? RxApp.MainThreadScheduler)
+                .Subscribe(errors =>
+                {
                     if (ValidationErrors.Any())
-					    ValidationErrors.Clear();
+                        ValidationErrors.Clear();
 
                     if (errors?.Any() ?? false)
-                        foreach (var error in errors) {
+                        foreach (var error in errors)
+                        {
                             ValidationErrors.Add(error);
-                        }                    
-				})
-				.DisposeWith(validatorDisposables);
+                        }
+                })
+                .DisposeWith(validatorDisposables);
 
 
-			return validatorDisposables;
-		}
+            return validatorDisposables;
+        }
 
-		public IObservable<ValidationInformation> MonitorValidationInformationFor<TProperty>(Expression<Func<TValidationObject, TProperty>> property)
-		{
-			var member = property.Body as MemberExpression;
-			var propertyName = member.Member.Name;
+        public IObservable<ValidationInformation> MonitorValidationInformationFor<TProperty>(Expression<Func<TValidationObject, TProperty>> property)
+        {
+            var member = property.Body as MemberExpression;
+            var propertyName = member.Member.Name;
 
-			var validInformation = new ValidationInformation(propertyName);
+            var validInformation = new ValidationInformation(propertyName);
 
-			return 
-				Observable
-					.Merge(
-						Observable
+            return
+                Observable
+                    .Merge(
+                        Observable
                             .FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                                 eventHandler =>
                                 {
@@ -145,10 +149,10 @@ namespace EightBot.BigBang.ViewModel
                                 },
                                 x => ValidationErrors.CollectionChanged += x,
                                 x => ValidationErrors.CollectionChanged -= x)
-							.ObserveOn(RxApp.TaskpoolScheduler)
-							.SelectMany(x => ValidationErrors?.Where(ni => ni.PropertyName.Equals(propertyName)))
-							.Where(x => x != null),
-						Observable
+                            .ObserveOn(RxApp.TaskpoolScheduler)
+                            .SelectMany(x => ValidationErrors?.Where(ni => ni.PropertyName.Equals(propertyName)))
+                            .Where(x => x != null),
+                        Observable
                             .FromEvent<NotifyCollectionChangedEventHandler, NotifyCollectionChangedEventArgs>(
                                 eventHandler =>
                                 {
@@ -157,11 +161,11 @@ namespace EightBot.BigBang.ViewModel
                                 },
                                 x => ValidationErrors.CollectionChanged += x,
                                 x => ValidationErrors.CollectionChanged -= x)
-							.ObserveOn(RxApp.TaskpoolScheduler)
-							.Where(x => !ValidationErrors?.Any(ni => ni.PropertyName.Equals(propertyName)) ?? true)
-							.Select(_ => validInformation)
-							.StartWith(validInformation))
-		           	.DistinctUntilChanged();
-		}
+                            .ObserveOn(RxApp.TaskpoolScheduler)
+                            .Where(x => !ValidationErrors?.Any(ni => ni.PropertyName.Equals(propertyName)) ?? true)
+                            .Select(_ => validInformation)
+                            .StartWith(validInformation))
+                       .DistinctUntilChanged();
+        }
     }
 }

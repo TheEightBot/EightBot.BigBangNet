@@ -2,7 +2,7 @@
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using Splat;
 using System.Collections.Generic;
 using System.Reactive.Concurrency;
@@ -10,13 +10,14 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Linq;
+using Microsoft.Maui.Controls.Compatibility;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
-	public static class VisualElementExtensions
-	{
-		public static IDisposable ProfileLayout(this VisualElement visualElement)
-		{
+    public static class VisualElementExtensions
+    {
+        public static IDisposable ProfileLayout(this VisualElement visualElement)
+        {
             var observables = new List<IObservable<(long Count, string Message)>>();
 
             ProfileLayout(ref observables, visualElement);
@@ -24,7 +25,7 @@ namespace EightBot.BigBang.XamForms
             var name = visualElement.GetType().Name;
             var totalLogs = 0L;
 
-            return 
+            return
                 Observable
                     .Merge(observables)
                     .ObserveOn(Schedulers.ShortTermThreadPoolScheduler)
@@ -40,21 +41,21 @@ namespace EightBot.BigBang.XamForms
                                 logMessage.AppendLine(log.Message);
                             }
 
-                            if(logMessage.Length > 0)
+                            if (logMessage.Length > 0)
                             {
                                 logMessage.AppendLine($"[Layout] Total Count: {Interlocked.Read(ref totalLogs)}");
                                 LogHost.Default.Debug(logMessage.ToString(), name);
                             }
                         })
                     .Subscribe();
-		}
-        
+        }
+
         private static void ProfileLayout(ref List<IObservable<(long Count, string Message)>> observables, VisualElement visualElement, string parent = "")
         {
             var name = visualElement.GetType().Name;
 
 
-            if(parent == "")
+            if (parent == "")
             {
                 parent = name;
             }
@@ -74,7 +75,7 @@ namespace EightBot.BigBang.XamForms
             }
 
             if (visualElement is Layout<View> layoutWithView)
-            {       
+            {
                 foreach (var child in layoutWithView.Children)
                 {
                     ProfileLayout(ref observables, child, parent);

@@ -1,19 +1,21 @@
 ﻿using System;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
-	public static class ElementExtensions
-	{
-        public static Page ParentPage(this Element element) {
+    public static class ElementExtensions
+    {
+        public static Page ParentPage(this Element element)
+        {
             if (element == null || element.Parent == null)
                 return null;
 
             var hasParent = false;
 
             var parentElement = element.Parent;
-            
-            while (hasParent == false) {
+
+            while (hasParent == false)
+            {
                 if (parentElement.Parent == null)
                     break;
 
@@ -25,6 +27,6 @@ namespace EightBot.BigBang.XamForms
 
             return hasParent && parentElement != null ? parentElement as Page : null;
         }
-	}
+    }
 }
 

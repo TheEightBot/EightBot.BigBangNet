@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Reactive.Linq;
 using EightBot.BigBang.Sample.ViewModels;
-using EightBot.BigBang.XamForms.Effects;
-using EightBot.BigBang.XamForms.Pages;
-using EightBot.BigBang.XamForms.Views;
+using EightBot.BigBang.Maui.Effects;
+using EightBot.BigBang.Maui.Pages;
+using EightBot.BigBang.Maui.Views;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Reactive.Disposables;
-using EightBot.BigBang.XamForms;
+using EightBot.BigBang.Maui;
 
 namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 {
@@ -52,8 +52,8 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
             _scrollEffect = new ScrollPositionEffect();
             _listView.Effects.Add(_scrollEffect);
 
-            _mainLayout.Children.Add(_position, 0, 0);
-            _mainLayout.Children.Add(_listView, 0, 1);
+            _mainLayout.Add(_position, 0, 0);
+            _mainLayout.Add(_listView, 0, 1);
 
             this.Content = _mainLayout;
         }

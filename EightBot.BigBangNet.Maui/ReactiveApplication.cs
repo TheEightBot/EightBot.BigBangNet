@@ -1,14 +1,14 @@
 ﻿using System;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Reactive.Linq;
 using ReactiveUI;
 using System.Linq;
 using EightBot.BigBang.Interfaces;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
-	public abstract class ReactiveApplication<TViewModel> : Application, IViewFor<TViewModel>
+    public abstract class ReactiveApplication<TViewModel> : Application, IViewFor<TViewModel>
         where TViewModel : class
     {
         /// <summary>
@@ -49,7 +49,7 @@ namespace EightBot.BigBang.XamForms
         {
             bindableObject.BindingContext = newValue;
         }
-	}
+    }
 }
 
 

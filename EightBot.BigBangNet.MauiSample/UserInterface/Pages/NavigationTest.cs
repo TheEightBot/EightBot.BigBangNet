@@ -1,10 +1,10 @@
 ﻿using System;
 using EightBot.BigBang.Sample.ViewModels;
-using EightBot.BigBang.XamForms.Pages;
-using Xamarin.Forms;
+using EightBot.BigBang.Maui.Pages;
+using Microsoft.Maui;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
-using EightBot.BigBang.XamForms;
+using EightBot.BigBang.Maui;
 
 namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 {

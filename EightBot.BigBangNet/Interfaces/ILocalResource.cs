@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace EightBot.BigBang.Interfaces
 {
-	public interface ILocalResource
-	{
-		Task<List<string>> AssetsInFolder (string folderName);
+    public interface ILocalResource
+    {
+        Task<List<string>> AssetsInFolder(string folderName);
 
-		Task<Stream> GetAsset (string assetPath);
-	}
+        Task<Stream> GetAsset(string assetPath);
+    }
 }
 

@@ -1,18 +1,19 @@
 ﻿using System;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
-	public static class ResourceDictionaryExtensions
-	{
-		public static void Replace(this ResourceDictionary dictionary, Style implicitStyle){
-			var key = implicitStyle.TargetType.FullName;
+    public static class ResourceDictionaryExtensions
+    {
+        public static void Replace(this ResourceDictionary dictionary, Style implicitStyle)
+        {
+            var key = implicitStyle.TargetType.FullName;
 
-			if (dictionary.ContainsKey (key))
-				dictionary.Remove (key);
+            if (dictionary.ContainsKey(key))
+                dictionary.Remove(key);
 
-			dictionary.Add (implicitStyle);
-		}
-	}
+            dictionary.Add(implicitStyle);
+        }
+    }
 }
 

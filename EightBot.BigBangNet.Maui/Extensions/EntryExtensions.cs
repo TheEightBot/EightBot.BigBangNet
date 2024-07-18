@@ -1,12 +1,13 @@
 ﻿using System;
-using Xamarin.Forms;
-using EightBot.BigBang.XamForms.AttachedProperties;
+using Microsoft.Maui;
+using EightBot.BigBang.Maui.AttachedProperties;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public static class EntryExtensions
     {
-        public static void SetNextControl(this Entry entry, VisualElement visualElement){
+        public static void SetNextControl(this Entry entry, VisualElement visualElement)
+        {
             EntryKeyboardReturnKeyTypeProperty.SetKeyboardReturnKeyType(entry, EntryKeyboardReturnType.Next);
             EntryKeyboardReturnKeyTypeProperty.SetNextVisualElement(entry, visualElement);
         }

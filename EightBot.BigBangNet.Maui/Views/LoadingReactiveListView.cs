@@ -5,18 +5,18 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using EightBot.BigBang.ViewModel;
-using EightBot.BigBang.XamForms.Pages;
+using EightBot.BigBang.Maui.Pages;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.Views
+namespace EightBot.BigBang.Maui.Views
 {
-	public class LoadingReactiveListView : Grid
-	{
-		Type _cellType;
+    public class LoadingReactiveListView : Grid
+    {
+        Type _cellType;
 
-		public ActivityIndicator LoadingIndicator { get; private set; }
-		public ReactiveListView ListView { get; private set; }
+        public ActivityIndicator LoadingIndicator { get; private set; }
+        public ReactiveListView ListView { get; private set; }
 
         public LoadingReactiveListView(Type cellType, ListViewCachingStrategy cachingStrategy = ListViewCachingStrategy.RecycleElement)
         {
@@ -40,53 +40,54 @@ namespace EightBot.BigBang.XamForms.Views
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
 
-            this.Children.Add(ListView, 0, 0);
-            this.Children.Add(LoadingIndicator, 0, 0);
+            this.Add(ListView, 0, 0);
+            this.Add(LoadingIndicator, 0, 0);
         }
 
         public LoadingReactiveListView(ListViewCachingStrategy cachingStrategy = ListViewCachingStrategy.RecycleElement)
-		{
+        {
             RowSpacing = 0;
             ColumnSpacing = 0;
             Margin = 0;
             Padding = 0;
 
-			ListView = new ReactiveListView(cachingStrategy)
-			{
-				HorizontalOptions = LayoutOptions.FillAndExpand,
-				VerticalOptions = LayoutOptions.FillAndExpand,
-				IsPullToRefreshEnabled = true,
-			};
+            ListView = new ReactiveListView(cachingStrategy)
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+                IsPullToRefreshEnabled = true,
+            };
 
-			LoadingIndicator = new ActivityIndicator { 
+            LoadingIndicator = new ActivityIndicator
+            {
                 HorizontalOptions = LayoutOptions.CenterAndExpand,
                 VerticalOptions = LayoutOptions.CenterAndExpand
             };
 
-			this.Children.Add(ListView, 0, 0);
-			this.Children.Add(LoadingIndicator, 0, 0);
-		}
-	}
+            this.Add(ListView, 0, 0);
+            this.Add(LoadingIndicator, 0, 0);
+        }
+    }
 
-	public static class LoadingTableViewExtensions
-	{
+    public static class LoadingTableViewExtensions
+    {
         public static IDisposable Bind<TViewModel>(this LoadingReactiveListView loadingTableView, IObservable<IEnumerable<TViewModel>> listItems, IObservable<bool> loadingChanged)
-		{
-			var disposables = new CompositeDisposable();
+        {
+            var disposables = new CompositeDisposable();
 
-			loadingTableView.ListView
+            loadingTableView.ListView
                 .Bind(listItems)
-				.DisposeWith(disposables);
+                .DisposeWith(disposables);
 
-			loadingChanged
-				.ObserveOn(RxApp.MainThreadScheduler)
-				.BindTo(loadingTableView.LoadingIndicator, c => c.IsRunning)
-				.DisposeWith(disposables);
+            loadingChanged
+                .ObserveOn(RxApp.MainThreadScheduler)
+                .BindTo(loadingTableView.LoadingIndicator, c => c.IsRunning)
+                .DisposeWith(disposables);
 
             loadingTableView.ListView.IsPullToRefreshEnabled = false;
-			
-			return disposables;
-		}
+
+            return disposables;
+        }
 
         public static IDisposable Bind<TViewModel, TParam, TResult>(this LoadingReactiveListView loadingTableView, IObservable<IEnumerable<TViewModel>> listItems, IObservable<bool> loadingChanged, IObservable<ReactiveCommand<TParam, TResult>> reload = null)
         {

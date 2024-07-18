@@ -1,7 +1,7 @@
 ﻿using System;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.Effects
+namespace EightBot.BigBang.Maui.Effects
 {
     public delegate void ScrollActionEventHandler(object sender, ScrolledPositionEventArgs args);
 

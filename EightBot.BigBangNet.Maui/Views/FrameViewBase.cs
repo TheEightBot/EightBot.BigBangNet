@@ -4,28 +4,28 @@ using System.Collections.Generic;
 using System.Reactive.Disposables;
 using EightBot.BigBang.Interfaces;
 using EightBot.BigBang.ViewModel;
-using EightBot.BigBang.XamForms.Interfaces;
+using EightBot.BigBang.Maui.Interfaces;
 using ReactiveUI;
 using Splat;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Reactive.Subjects;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Reactive;
 using System.Threading;
 
-namespace EightBot.BigBang.XamForms.Views
+namespace EightBot.BigBang.Maui.Views
 {
-	public abstract class FrameBase<TViewModel> : ReactiveFrame<TViewModel>, IEnableLogger 
+    public abstract class FrameBase<TViewModel> : ReactiveFrame<TViewModel>, IEnableLogger
         where TViewModel : class
-	{
+    {
         readonly Subject<LifecycleEvent> _lifecycle = new Subject<LifecycleEvent>();
         public IObservable<Unit> Activated => _lifecycle.Where(x => x == LifecycleEvent.Activated).SelectUnit().AsObservable();
         public IObservable<Unit> Deactivated => _lifecycle.Where(x => x == LifecycleEvent.Deactivated).SelectUnit().AsObservable();
         public IObservable<LifecycleEvent> Lifecycle => _lifecycle.AsObservable();
 
         bool _controlsBound = false;
-        
+
         readonly string _viewModelName;
 
         private readonly object _bindingLock = new object();
@@ -38,21 +38,21 @@ namespace EightBot.BigBang.XamForms.Views
 
         public bool MaintainBindings { get; set; }
 
-        protected FrameBase (bool delayBindingRegistrationUntilActivation = false)
+        protected FrameBase(bool delayBindingRegistrationUntilActivation = false)
         {
             IDisposable performanceLogger = null;
 
             Initialize();
-            
+
             if (GlobalConfiguration.LogPerformanceMetrics)
             {
                 _viewModelName = this.GetType().Name;
-            
+
                 performanceLogger =
                     new Helpers.PerformanceCapture(ts =>
                         this.Log().Debug($"{"[Setup User Interface]",-25}{_viewModelName,-25}{$"{ts.TotalMilliseconds:N1}ms",25}"));
-            }            
-            
+            }
+
             SetupUserInterface();
 
             performanceLogger?.Dispose();
@@ -61,31 +61,32 @@ namespace EightBot.BigBang.XamForms.Views
                 RegisterBindings();
         }
 
-		protected override void OnPropertyChanged(string propertyName = null)
-		{
-			base.OnPropertyChanged(propertyName);
+        protected override void OnPropertyChanged(string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
 
-			if (propertyName.Equals(Values.XamarinFormsHiddenProperties.RendererProperty, StringComparison.OrdinalIgnoreCase))
-			{
-				var rendererResolver = Service.RendererResolver;
+            if (!(propertyName?.Equals(nameof(Window)) ?? false))
+            {
+                return;
+            }
 
-				if (rendererResolver.HasRenderer(this))
-				{
-                    RegisterBindings();
+            if (Window is not null)
+            {
+                RegisterBindings();
 
-					_lifecycle?.OnNext(LifecycleEvent.Activated);
-				}
-				else {
-                    _lifecycle?.OnNext(LifecycleEvent.Deactivated);
+                _lifecycle?.OnNext(LifecycleEvent.Activated);
 
-                    UnregisterBindings();
-                }
-			}
-		}
+                return;
+            }
 
-		protected virtual void Initialize() { }
-		protected abstract void SetupUserInterface();
-		protected abstract void BindControls();
+            _lifecycle?.OnNext(LifecycleEvent.Deactivated);
+
+            UnregisterBindings();
+        }
+
+        protected virtual void Initialize() { }
+        protected abstract void SetupUserInterface();
+        protected abstract void BindControls();
 
         protected void RegisterBindings()
         {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using EightBot.BigBang.Interfaces;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
 namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 {

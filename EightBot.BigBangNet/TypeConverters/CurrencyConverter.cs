@@ -77,15 +77,15 @@ namespace EightBot.BigBang.TypeConverters
 
                 var decimalSeparator = System.Globalization.NumberFormatInfo.CurrentInfo.CurrencyDecimalSeparator;
 
-				var valStr = val.ToString();
+                var valStr = val.ToString();
 
-				if (valStr.EndsWith(decimalSeparator, StringComparison.OrdinalIgnoreCase))
-				{
-					result = valStr.Substring(0, valStr.Length - decimalSeparator.Length);
-					return true;
-				}
+                if (valStr.EndsWith(decimalSeparator, StringComparison.OrdinalIgnoreCase))
+                {
+                    result = valStr.Substring(0, valStr.Length - decimalSeparator.Length);
+                    return true;
+                }
 
-                var decimalPlaces = 
+                var decimalPlaces =
                     valStr.Contains(decimalSeparator)
                         ? valStr.Substring(valStr.IndexOf(decimalSeparator) + 1).Length
                         : -1;
@@ -97,9 +97,9 @@ namespace EightBot.BigBang.TypeConverters
                     result = formattedValue.Remove(formattedValue.Length - 1, 1);
                 else if (decimalPlaces == 0)
                     result = formattedValue.Remove(formattedValue.Length - 2, 2);
-				else if (decimalPlaces == -1)
+                else if (decimalPlaces == -1)
                     result = formattedValue.Remove(formattedValue.Length - 3, 3);
-                else 
+                else
                     result = formattedValue;
 
                 return true;

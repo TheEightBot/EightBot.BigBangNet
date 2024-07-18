@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.AttachedProperties
+namespace EightBot.BigBang.Maui.AttachedProperties
 {
     public class ShowKeyboardDoneButtonProperty
     {
         public static BindableProperty KeyboardDoneButtonProperty =
             BindableProperty
                 .Create(
-                    nameof(KeyboardDoneButtonProperty), typeof(bool), typeof(ShowKeyboardDoneButtonProperty), default(bool), 
+                    nameof(KeyboardDoneButtonProperty), typeof(bool), typeof(ShowKeyboardDoneButtonProperty), default(bool),
                     defaultBindingMode: BindingMode.Default, propertyChanged: OnKeyboardDoneButtonChanged);
 
 
@@ -37,7 +37,8 @@ namespace EightBot.BigBang.XamForms.AttachedProperties
             if (foundEffect != null)
                 ve.Effects.Remove(foundEffect);
 
-            if (shouldApply) {
+            if (shouldApply)
+            {
                 var effect = Effect.Resolve(Effects.EffectNames.ShowKeyboardDoneButtonEffect);
                 ve.Effects.Add(effect);
             }

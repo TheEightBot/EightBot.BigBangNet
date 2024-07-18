@@ -4,28 +4,28 @@ using ReactiveUI;
 namespace EightBot.BigBang.TypeConverters
 {
     public class DateTimeToDateTimeOffsetConverter : IBindingTypeConverter
-	{
-		public int GetAffinityForObjects(Type fromType, Type toType)
-		{
-			return (fromType == typeof(DateTime) && toType == typeof(DateTimeOffset) ? 1 : 0);
-		}
+    {
+        public int GetAffinityForObjects(Type fromType, Type toType)
+        {
+            return (fromType == typeof(DateTime) && toType == typeof(DateTimeOffset) ? 1 : 0);
+        }
 
-		public bool TryConvert(object from, Type toType, object conversionHint, out object result)
-		{
-			try
-			{
-				var val = (DateTime)from;
+        public bool TryConvert(object from, Type toType, object conversionHint, out object result)
+        {
+            try
+            {
+                var val = (DateTime)from;
 
                 result = new DateTimeOffset(val);
                 return true;
-			}
-			catch (Exception)
-			{
-				result = Activator.CreateInstance(toType);
-				return false;
-			}
-		}
-	}
+            }
+            catch (Exception)
+            {
+                result = Activator.CreateInstance(toType);
+                return false;
+            }
+        }
+    }
 
     public class DateTimeOffsetToDateTimeConverter : IBindingTypeConverter
     {

@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Reflection;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Splat;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public static class PageExtensions
     {
-        public static bool IsPresentedModally (this Page page) {
-            return page != null && page.Navigation != null && page.Navigation.ModalStack.Contains (page);
+        public static bool IsPresentedModally(this Page page)
+        {
+            return page != null && page.Navigation != null && page.Navigation.ModalStack.Contains(page);
         }
 
-        public static bool IsPresentedOnStack (this Page page)
+        public static bool IsPresentedOnStack(this Page page)
         {
-            return page != null && page.Navigation != null && page.Navigation.NavigationStack.Contains (page);
+            return page != null && page.Navigation != null && page.Navigation.NavigationStack.Contains(page);
         }
 
         public static void GenerateViewNames(this IEnableLogger logger, Page page)
@@ -37,7 +38,7 @@ namespace EightBot.BigBang.XamForms
             if (properties.Any())
             {
                 diagnosticsOutput.AppendLine("\t[ Generated IDs for Properties ]");
-                
+
                 foreach (var property in properties)
                 {
                     try
@@ -97,7 +98,7 @@ namespace EightBot.BigBang.XamForms
             diagnosticsOutput.AppendLine(string.Format("\t[ Processing Time for {0} : {1}ms ]", pageType.Name, stopwatch.ElapsedMilliseconds));
             diagnosticsOutput.AppendLine(string.Format("----- Found {0} Missing View IDs for {1}  - End -----", missingViewsCount, pageType.Name));
             diagnosticsOutput.AppendLine();
-            
+
             logger.Log().Debug(diagnosticsOutput.ToString());
         }
 
@@ -107,13 +108,15 @@ namespace EightBot.BigBang.XamForms
             if (!navStack?.Any() ?? true)
                 return;
 
-            for (int i = navStack.Count - 1; i >= 0; i--) {
+            for (int i = navStack.Count - 1; i >= 0; i--)
+            {
                 var currPage = navStack[i];
 
                 if (currPage == visualElement)
                     continue;
 
-                if (currPage is TPage) {
+                if (currPage is TPage)
+                {
                     await visualElement.Navigation.PopAsync(animated);
                     return;
                 }
@@ -121,7 +124,7 @@ namespace EightBot.BigBang.XamForms
                 visualElement.Navigation.RemovePage(currPage);
             }
         }
-    
+
         public static async Task AppearingAsync(this Page page)
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -136,8 +139,8 @@ namespace EightBot.BigBang.XamForms
             {
                 tcs.TrySetException(ex);
             }
-            finally 
-            { 
+            finally
+            {
                 page.Appearing -= Page_Appearing;
             }
 

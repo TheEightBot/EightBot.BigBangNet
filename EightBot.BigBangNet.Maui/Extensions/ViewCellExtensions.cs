@@ -3,9 +3,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public static class ViewCellExtensions
     {

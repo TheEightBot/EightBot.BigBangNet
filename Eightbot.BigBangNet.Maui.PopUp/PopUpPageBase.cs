@@ -6,12 +6,13 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
+using EightBot.BigBang.Maui;
 using EightBot.BigBang.ViewModel;
 using ReactiveUI;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.PopUp
+namespace EightBot.BigBang.Maui.PopUp
 {
     public enum PopupLifecycleEvent
     {
@@ -26,9 +27,9 @@ namespace EightBot.BigBang.XamForms.PopUp
         OnDisappearingAnimationEnd,
     }
 
-	public abstract class PopupPageBase<TViewModel> : ReactivePopupPage<TViewModel>, ICanActivate, IEnableLogger
-		where TViewModel : ViewModelBase
-	{
+    public abstract class PopupPageBase<TViewModel> : ReactivePopupPage<TViewModel>, ICanActivate, IEnableLogger
+        where TViewModel : ViewModelBase
+    {
         readonly Subject<LifecycleEvent> _lifecycle = new Subject<LifecycleEvent>();
         readonly Subject<PopupLifecycleEvent> _popupLifecycle = new Subject<PopupLifecycleEvent>();
 
@@ -41,7 +42,7 @@ namespace EightBot.BigBang.XamForms.PopUp
         public IObservable<PopupLifecycleEvent> PopupLifecycle => _popupLifecycle.AsObservable();
 
         bool _controlsBound = false;
-        
+
         readonly string _viewModelName;
 
         private readonly object _bindingLock = new object();
@@ -54,41 +55,41 @@ namespace EightBot.BigBang.XamForms.PopUp
 
         public bool MaintainBindings { get; set; }
 
-        protected PopupPageBase (bool delayBindingRegistrationUntilActivation = false)
+        protected PopupPageBase(bool delayBindingRegistrationUntilActivation = false)
         {
             IDisposable performanceLogger = null;
 
             Initialize();
-            
+
             if (GlobalConfiguration.LogPerformanceMetrics)
             {
                 _viewModelName = this.GetType().Name;
-            
+
                 performanceLogger =
                     new Helpers.PerformanceCapture(ts =>
                         this.Log().Debug($"{"[Setup User Interface]",-25}{_viewModelName,-25}{$"{ts.TotalMilliseconds:N1}ms",25}"));
-            }            
-            
+            }
+
             SetupUserInterface();
 
             performanceLogger?.Dispose();
 
             if (!delayBindingRegistrationUntilActivation)
                 RegisterBindings();
-            
+
             if (GlobalConfiguration.GenerateUITestViewNames)
                 this.GenerateViewNames(this);
         }
-            
-        protected override void OnAppearing ()
-        {               
+
+        protected override void OnAppearing()
+        {
             base.OnAppearing();
 
             _lifecycle?.OnNext(LifecycleEvent.IsAppearing);
             _popupLifecycle?.OnNext(PopupLifecycleEvent.IsAppearing);
         }
 
-        protected override void OnDisappearing ()
+        protected override void OnDisappearing()
         {
             _lifecycle?.OnNext(LifecycleEvent.IsDisappearing);
             _popupLifecycle?.OnNext(PopupLifecycleEvent.IsDisappearing);
@@ -126,25 +127,25 @@ namespace EightBot.BigBang.XamForms.PopUp
         {
             base.OnPropertyChanged(propertyName);
 
-            if (propertyName.Equals(Values.XamarinFormsHiddenProperties.RendererProperty, StringComparison.OrdinalIgnoreCase))
+            if (!(propertyName?.Equals(nameof(Window)) ?? false))
             {
-                var rendererResolver = Service.RendererResolver;
-
-                if (rendererResolver.HasRenderer(this))
-                {
-                    RegisterBindings();
-
-                    _lifecycle?.OnNext(LifecycleEvent.Activated);
-                    _popupLifecycle?.OnNext(PopupLifecycleEvent.Activated);
-                }
-                else
-                {
-                    _lifecycle?.OnNext(LifecycleEvent.Deactivated);
-                    _popupLifecycle?.OnNext(PopupLifecycleEvent.Deactivated);
-
-                    UnregisterBindings();
-                }
+                return;
             }
+
+            if (Window is not null)
+            {
+                RegisterBindings();
+
+                _lifecycle?.OnNext(LifecycleEvent.Activated);
+                _popupLifecycle?.OnNext(PopupLifecycleEvent.Activated);
+
+                return;
+            }
+
+            _lifecycle?.OnNext(LifecycleEvent.Deactivated);
+            _popupLifecycle?.OnNext(PopupLifecycleEvent.Deactivated);
+
+            UnregisterBindings();
         }
 
         protected virtual void Initialize() { }

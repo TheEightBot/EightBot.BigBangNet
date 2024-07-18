@@ -5,11 +5,11 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using EightBot.BigBang.XamForms.Views;
+using EightBot.BigBang.Maui.Views;
 using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public static class ItemsViewExtensions
     {
@@ -31,7 +31,8 @@ namespace EightBot.BigBang.XamForms
                 })
                 .DisposeWith(bindingDisposables);
 
-            return Disposable.Create(() => {
+            return Disposable.Create(() =>
+            {
                 if (itemsView != null)
                     itemsView.ItemsSource = null;
 
@@ -56,7 +57,8 @@ namespace EightBot.BigBang.XamForms
                 })
                 .DisposeWith(bindingDisposables);
 
-            return Disposable.Create(() => {
+            return Disposable.Create(() =>
+            {
                 if (itemsView != null)
                     itemsView.ItemsSource = null;
 

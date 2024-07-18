@@ -2,8 +2,8 @@
 
 namespace EightBot.BigBang.Maui.Values
 {
-	public static class XamarinFormsHiddenProperties
-	{
-		public const string RealCellProperty = "RealCell";
-	}
+    public static class MauiHiddenProperties
+    {
+        public const string RealCellProperty = "RealCell";
+    }
 }

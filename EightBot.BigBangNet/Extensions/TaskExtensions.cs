@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace EightBot.BigBang
 {
-	public static class TaskExtensions
-	{
+    public static class TaskExtensions
+    {
         /// <summary>
         /// Use this to suppress the compiler warning when firing off a task and not awaiting.
         /// </summary>
@@ -13,8 +13,8 @@ namespace EightBot.BigBang
         /// Also, you should REALLY AVOID using this, in 99.9% of cases it is a "bad move"™
         /// </remarks>
 		public static void FireAndForget(this Task task)
-		{
-		}
-	}
+        {
+        }
+    }
 }
 

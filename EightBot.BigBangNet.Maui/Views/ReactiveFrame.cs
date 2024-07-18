@@ -1,13 +1,13 @@
 ﻿using ReactiveUI;
-using Xamarin.Forms;
+using Microsoft.Maui;
 
-namespace EightBot.BigBang.XamForms.Views
+namespace EightBot.BigBang.Maui.Views
 {
     /// <summary>
     /// This is an <see cref="Frame"/> that is also an <see cref="IViewFor{T}"/>.
     /// </summary>
     /// <typeparam name="TViewModel">The type of the view model.</typeparam>
-    /// <seealso cref="Xamarin.Forms.Frame" />
+    /// <seealso cref="Microsoft.Maui.Frame" />
     /// <seealso cref="ReactiveUI.IViewFor{TViewModel}" />
     public class ReactiveFrame<TViewModel> : Frame, IViewFor<TViewModel>
         where TViewModel : class

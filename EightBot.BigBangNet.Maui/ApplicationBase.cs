@@ -1,6 +1,6 @@
 ﻿using System;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Reactive.Linq;
 using ReactiveUI;
 using System.Linq;
@@ -10,7 +10,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using EightBot.BigBang.ViewModel;
 
-namespace EightBot.BigBang.XamForms
+namespace EightBot.BigBang.Maui
 {
     public abstract class ApplicationBase : Application, IEnableLogger
     {

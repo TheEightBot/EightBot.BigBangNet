@@ -62,8 +62,10 @@ namespace EightBot.BigBang.Sample.ViewModels
             _sampleListSource.AddRange(
                 Enumerable
                     .Range(0, 3)
-                .Select(x => {
-                    return new SampleViewModel {
+                .Select(x =>
+                {
+                    return new SampleViewModel
+                    {
                         StringProperty = Guid.NewGuid().ToString("N")
                     };
                 })
@@ -81,8 +83,8 @@ namespace EightBot.BigBang.Sample.ViewModels
         {
 
             StartMonitoring = ReactiveCommand
-			    .Create(() =>
-			    {
+                .Create(() =>
+                {
                     var rngesus = new Random(Guid.NewGuid().GetHashCode());
 
                     Observable
@@ -92,19 +94,21 @@ namespace EightBot.BigBang.Sample.ViewModels
                             x => $"Generated_{Guid.NewGuid().ToString("N")}",
                             x => x,
                             x => TimeSpan.FromMilliseconds(rngesus.Next(1, 1000)))
-                        .Select(x => {
+                        .Select(x =>
+                        {
                             return new SampleViewModel
                             {
                                 StringProperty = x
                             };
                         })
                         .ObserveOn(RxApp.MainThreadScheduler)
-                        .Subscribe(x => {
+                        .Subscribe(x =>
+                        {
                             _sampleListSource.Add(x);
                         })
                         .DisposeWith(_processingDisposable);
                 })
-			    .DisposeWith(ViewModelBindings);
+                .DisposeWith(ViewModelBindings);
 
             StopMonitoring = ReactiveCommand
                 .Create(() =>

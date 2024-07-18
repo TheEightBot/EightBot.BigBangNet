@@ -4,11 +4,11 @@ using System.Reactive.Linq;
 using System.Runtime.Serialization;
 using EightBot.BigBang.Interfaces;
 using EightBot.BigBang.ViewModel;
-using EightBot.BigBang.XamForms.Pages;
+using EightBot.BigBang.Maui.Pages;
 using FluentValidation;
 using ReactiveUI;
 using Splat;
-using Xamarin.Forms;
+using Microsoft.Maui;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
 
@@ -38,7 +38,8 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
 
         protected override void SetupUserInterface()
         {
-            _fileInfo = new Label {
+            _fileInfo = new Label
+            {
                 VerticalOptions = LayoutOptions.FillAndExpand,
                 HorizontalOptions = LayoutOptions.FillAndExpand,
                 VerticalTextAlignment = TextAlignment.Center,
@@ -77,7 +78,8 @@ namespace EightBot.BigBang.SampleApp.UserInterface.Pages
                             try
                             {
                                 var selectedFile = await Task.Run(
-                                    async () => {
+                                    async () =>
+                                    {
                                         var fileSelection = Locator.Current.GetService<IFileSelection>();
 
                                         return await fileSelection.SelectFileAsync(4 * 1024);
