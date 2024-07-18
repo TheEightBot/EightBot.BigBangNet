@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<bigbang:ContentPageBase
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:local="clr-namespace:EightBot.BigBang.SampleApp"
+	xmlns:bigbang="clr-namespace:EightBot.BigBang.XamForms.Pages;assembly=EightBot.BigBang.XamForms"
+    xmlns:viewModels="clr-namespace:EightBot.BigBang.Sample.ViewModels"
+	x:Class="EightBot.BigBang.SampleApp.UserInterface.Pages.SampleAppPage"
+	x:TypeArguments="viewModels:SampleViewModel"
+	Title="Big Bang Samples">
+	<ScrollView>
+		<StackLayout>
+			<Button x:Name="TabbarInactiveColorEffect" Text="Tabbar Inactive Color Effect" Clicked="Handle_Clicked" />
+            <Button x:Name="ThrottleFirst" Text="Throttle This!" />
+            <Button x:Name="ThrottleKill" Text="Throttle Kill!" />
+            <Button x:Name="ModalPage" Text="Modal Pages" Clicked="Handle_Clicked" />
+            <Button x:Name="NullableDatePicker" Text="Nullable Date Picker" Clicked="Handle_Clicked" />
+            <Button x:Name="NullableTimePicker" Text="Nullable Time Picker" Clicked="Handle_Clicked" />
+            <Button x:Name="ListViewContentHooks" Text="ListView Content Hooks" Clicked="Handle_Clicked" />
+            <Button x:Name="ListViewBindWithPullToRefresh" Text="ListView With PTR Bindings" Clicked="Handle_Clicked" />
+            <Button x:Name="ListViewWithPinnedCellViewModel" Text="ListView With Pinned Cell VM" Clicked="Handle_Clicked" />
+            <Button x:Name="ListViewWithUpdates" Text="ListView With Updates" Clicked="Handle_Clicked" />
+            <Button x:Name="LinkLabel" Text="Linkable Label" Clicked="Handle_Clicked" />
+            <Button x:Name="NumericConverters" Text="Numeric Converters" Clicked="Handle_Clicked" />
+            <Button x:Name="FloatingControlPerformanceTest" Text="Floating Control Performance Test" Clicked="Handle_Clicked" />
+            <Button x:Name="FileSelectionTest" Text="File Selection Test" Clicked="Handle_Clicked" />
+            <Button x:Name="FileSelectionAndSaveTest" Text="File Selection And Save Test" Clicked="Handle_Clicked" />
+            <Button x:Name="ScrollPosition" Text="List view scroll position" Clicked="Handle_Clicked" />
+            <Button x:Name="BackgroundProcessing" Text="BackgroundProcessing" Clicked="Handle_Clicked" />
+            <Button x:Name="NavigationTest" Text="Navigation Test" Clicked="Handle_Clicked" />
+            <Button x:Name="PickersTest" Text="Pickers Test" Clicked="Handle_Clicked" />
+            <Entry x:Name="NumericToCurrencyTest" Placeholder="Numeric To Currency Test" />
+		</StackLayout>
+	</ScrollView>
+</bigbang:ContentPageBase>
